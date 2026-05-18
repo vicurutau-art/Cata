@@ -148,12 +148,23 @@
 <div id="auth">
   <div class="auth-logo">Cata</div><div class="auth-tag">tu diario de vinos</div>
   <div class="auth-card">
-    <div class="atabs"><div class="atab active" id="tab-in" onclick="setMode('login')">Ingresar</div><div class="atab" id="tab-up" onclick="setMode('register')">Registrarse</div></div>
+    <div class="atabs" id="auth-tabs">
+      <div class="atab active" id="tab-in" onclick="setMode('login')">Ingresar</div>
+      <div class="atab" id="tab-up" onclick="setMode('register')">Registrarse</div>
+    </div>
     <div id="amsg"></div>
-    <label class="lbl">Email</label><input class="inp" id="a-em" type="email" placeholder="tu@email.com">
+    <label class="lbl">Email</label>
+    <input class="inp" id="a-em" type="email" placeholder="tu@email.com">
     <div id="nw" style="display:none"><label class="lbl">Tu nombre</label><input class="inp" id="a-nm" type="text" placeholder="Ej: María"></div>
-    <label class="lbl">Contraseña</label><input class="inp" id="a-pw" type="password" placeholder="••••••••">
+    <div id="pw-wrap"><label class="lbl">Contraseña</label><input class="inp" id="a-pw" type="password" placeholder="••••••••"></div>
     <button class="btn-grad" id="abtn" onclick="handleAuth()">Ingresar</button>
+    <div id="auth-links" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;text-align:center">
+      <span style="font-size:13px;color:var(--peach);cursor:pointer" onclick="setMode('magic')">✉️ Entrar sin contraseña</span>
+      <span style="font-size:13px;color:var(--dim);cursor:pointer" onclick="setMode('reset')">Olvidé mi contraseña</span>
+    </div>
+    <div id="back-link" style="display:none;margin-top:14px;text-align:center">
+      <span style="font-size:13px;color:var(--dim);cursor:pointer" onclick="setMode('login')">← Volver</span>
+    </div>
   </div>
 </div>
 
@@ -171,11 +182,10 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ═══════════ CONFIG ═══════════ */
-const SUPA_URL = 'https://pzcvfzzbvqenipvsgbnr.supabase.co'
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB6Y3ZmenpidnFlbmlwdnNnYm5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3Nzc0NjcsImV4cCI6MjA5NDM1MzQ2N30.7RFcD18Bm6rnwXJAn66VCFrzbr4LrOHSysNeXBTgt8I'
+const SUPA_URL='https://pzcvfzzbvqenipvsgbnr.supabase.co'
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB6Y3ZmenpidnFlbmlwdnNnYm5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3Nzc0NjcsImV4cCI6MjA5NDM1MzQ2N30.7RFcD18Bm6rnwXJAn66VCFrzbr4LrOHSysNeXBTgt8I'
 
-
-/* ═══════════ COLORS — EXACT FROM PDF ═══════════ */
+/* ═══════════ COLORS ═══════════ */
 const COLORES={
   'Amarillo':[{n:'Pálido',h:'#F5F0C8'},{n:'Intenso',h:'#E8D018'},{n:'Dorado',h:'#D4A800'},{n:'Verdoso',h:'#D8E090'}],
   'Rosado':[{n:'Pálido',h:'#FADCE8'},{n:'Cereza',h:'#E06080'},{n:'Salmón',h:'#F09888'},{n:'Piel de cebolla',h:'#D4A890'}],
@@ -183,7 +193,7 @@ const COLORES={
   'Marrón':[{n:'Ambarino',h:'#D08020'},{n:'Caoba',h:'#5A2810'}]
 }
 
-/* ═══════════ AROMA MAP — linked to each perfil option ═══════════ */
+/* ═══════════ AROMAS ═══════════ */
 const PA={
   'Frutado':[
     {c:'Cítricos',clr:'#D4C820',i:['Limón','Lima','Pomelo','Grosella espinosa']},
@@ -217,8 +227,60 @@ function avg(){const w=S.catas.filter(c=>c.score);return w.length?Math.round(w.r
 function toast(m,ok=true){const t=document.getElementById('toast');t.textContent=m;t.style.borderColor=ok?'rgba(139,168,136,.4)':'rgba(196,132,124,.4)';t.style.color=ok?'#A8C8A4':'#E8A898';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
 
 /* ═══════════ AUTH ═══════════ */
-function setMode(m){S.authMode=m;document.getElementById('tab-in').classList.toggle('active',m==='login');document.getElementById('tab-up').classList.toggle('active',m==='register');document.getElementById('abtn').textContent=m==='login'?'Ingresar':'Crear cuenta';document.getElementById('nw').style.display=m==='register'?'block':'none';document.getElementById('amsg').innerHTML=''}
-async function handleAuth(){const em=document.getElementById('a-em').value.trim(),pw=document.getElementById('a-pw').value;if(!em||!pw){document.getElementById('amsg').innerHTML='<div class="auth-err">Completá email y contraseña</div>';return}const b=document.getElementById('abtn');b.innerHTML='<span class="spinner"></span>';b.disabled=true;let e;if(S.authMode==='login'){e=(await db.auth.signInWithPassword({email:em,password:pw})).error}else{const nm=document.getElementById('a-nm').value.trim();e=(await db.auth.signUp({email:em,password:pw,options:{data:{name:nm}}})).error;if(!e)document.getElementById('amsg').innerHTML='<div class="auth-ok">✓ Revisá tu email para confirmar</div>'}b.textContent=S.authMode==='login'?'Ingresar':'Crear cuenta';b.disabled=false;if(e)document.getElementById('amsg').innerHTML='<div class="auth-err">'+e.message+'</div>'}
+function setMode(m){
+  S.authMode=m
+  const tabs=document.getElementById('auth-tabs')
+  const pwWrap=document.getElementById('pw-wrap')
+  const nw=document.getElementById('nw')
+  const links=document.getElementById('auth-links')
+  const back=document.getElementById('back-link')
+  const btn=document.getElementById('abtn')
+  document.getElementById('amsg').innerHTML=''
+  document.getElementById('tab-in').classList.toggle('active',m==='login')
+  document.getElementById('tab-up').classList.toggle('active',m==='register')
+  if(m==='login'){
+    tabs.style.display='flex';pwWrap.style.display='block';nw.style.display='none'
+    links.style.display='flex';back.style.display='none';btn.textContent='Ingresar'
+  }else if(m==='register'){
+    tabs.style.display='flex';pwWrap.style.display='block';nw.style.display='block'
+    links.style.display='none';back.style.display='none';btn.textContent='Crear cuenta'
+  }else if(m==='magic'){
+    tabs.style.display='none';pwWrap.style.display='none';nw.style.display='none'
+    links.style.display='none';back.style.display='block';btn.textContent='Enviar link de acceso'
+    document.getElementById('amsg').innerHTML='<div class="auth-ok">Te mandamos un link al email. Hacé click y entrás directo, sin contraseña.</div>'
+  }else if(m==='reset'){
+    tabs.style.display='none';pwWrap.style.display='none';nw.style.display='none'
+    links.style.display='none';back.style.display='block';btn.textContent='Enviar link de recuperación'
+  }
+}
+
+async function handleAuth(){
+  const em=document.getElementById('a-em').value.trim()
+  const pw=document.getElementById('a-pw').value
+  if(!em){document.getElementById('amsg').innerHTML='<div class="auth-err">Ingresá tu email</div>';return}
+  const b=document.getElementById('abtn')
+  b.innerHTML='<span class="spinner"></span>';b.disabled=true
+  const labels={login:'Ingresar',register:'Crear cuenta',magic:'Enviar link de acceso',reset:'Enviar link de recuperación'}
+  let e
+  if(S.authMode==='login'){
+    e=(await db.auth.signInWithPassword({email:em,password:pw})).error
+  }else if(S.authMode==='register'){
+    const nm=document.getElementById('a-nm').value.trim()
+    e=(await db.auth.signUp({email:em,password:pw,options:{data:{name:nm}}})).error
+    if(!e)document.getElementById('amsg').innerHTML='<div class="auth-ok">✓ Cuenta creada, ya podés ingresar</div>'
+  }else if(S.authMode==='magic'){
+    e=(await db.auth.signInWithOtp({email:em,options:{emailRedirectTo:window.location.origin}})).error
+    if(!e){document.getElementById('amsg').innerHTML='<div class="auth-ok">✓ Revisá tu email, te mandamos el link de acceso</div>';b.textContent=labels.magic;b.disabled=false;return}
+  }else if(S.authMode==='reset'){
+    e=(await db.auth.resetPasswordForEmail(em,{redirectTo:window.location.origin})).error
+    if(!e){document.getElementById('amsg').innerHTML='<div class="auth-ok">✓ Revisá tu email para recuperar la contraseña</div>';b.textContent=labels.reset;b.disabled=false;return}
+  }
+  b.textContent=labels[S.authMode];b.disabled=false
+  if(e)document.getElementById('amsg').innerHTML='<div class="auth-err">'+e.message+'</div>'
+}
+
+async function signOut(){await db.auth.signOut()}
+
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('auth').style.display!=='none')handleAuth()})
 
 /* ═══════════ DATA ═══════════ */
@@ -288,10 +350,10 @@ function buildStep(s){
 function c1(g,vs){return vs.map(v=>`<div class="chip${S.f[g]===v?' sel':''}" data-g="${g}" data-v="${v}">${v}</div>`).join('')}
 function cM(g,vs){return vs.map(v=>`<div class="chip${(S.f[g]||[]).includes(v)?' sel':''}" data-g="${g}" data-m="1" data-v="${v}">${v}</div>`).join('')}
 
-function expander(perfilKey,aromasKey){
-  const sel=S.f[perfilKey]||[]
+function expander(pk,ak){
+  const sel=S.f[pk]||[]
   if(!sel.length)return''
-  return sel.map(p=>{const cats=PA[p];if(!cats)return'';return`<div class="expand-block"><div class="expand-header">⤷ ${p}</div>${cats.map(cat=>`<div class="expand-cat"><div class="expand-cat-t" style="color:${cat.clr}">${cat.c}</div><div class="chips">${cat.i.map(a=>`<div class="chip${(S.f[aromasKey]||[]).includes(a)?' sel':''}" data-g="${aromasKey}" data-m="1" data-v="${a}">${a}</div>`).join('')}</div></div>`).join('')}</div>`}).join('')
+  return sel.map(p=>{const cats=PA[p];if(!cats)return'';return`<div class="expand-block"><div class="expand-header">⤷ ${p}</div>${cats.map(cat=>`<div class="expand-cat"><div class="expand-cat-t" style="color:${cat.clr}">${cat.c}</div><div class="chips">${cat.i.map(a=>`<div class="chip${(S.f[ak]||[]).includes(a)?' sel':''}" data-g="${ak}" data-m="1" data-v="${a}">${a}</div>`).join('')}</div></div>`).join('')}</div>`}).join('')
 }
 
 function bindChips(){document.querySelectorAll('.chip').forEach(el=>{el.addEventListener('click',function(){const g=this.dataset.g,v=this.dataset.v,m=this.dataset.m;if(!g)return;if(g==='cBase'){S.f.cBase=v;S.f.cShade=null;S.f.cHex=null;renderNueva();return}if(m){if(!S.f[g])S.f[g]=[];const i=S.f[g].indexOf(v);if(i>=0){S.f[g].splice(i,1);this.classList.remove('sel')}else{S.f[g].push(v);this.classList.add('sel')}if(g==='pN'||g==='pB')renderNueva()}else{S.f[g]=v;document.querySelectorAll('.chip[data-g="'+g+'"]').forEach(x=>x.classList.remove('sel'));this.classList.add('sel')}})})}
