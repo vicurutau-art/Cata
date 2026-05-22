@@ -8,19 +8,53 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Cata">
   <link rel="manifest" href="manifest.json">
-  <title>Cata</title>
+  <title>Cata · Sommelier</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400;1,9..144,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#FAF5EE;--bg2:#F2ECE2;--card:#fff;--cb:rgba(92,26,42,.08);--shadow:0 2px 16px rgba(44,24,16,.06);--wine:#722F37;--wine-lt:#9B4A54;--wine-dk:#4A1520;--gold:#C4942A;--text:#2C1810;--dim:#8B7355;--dim2:#C4B49A;--sb:env(safe-area-inset-bottom,0px);--st:env(safe-area-inset-top,0px)}
+    :root{--bg:#FAF5EE;--bg2:#F2ECE2;--card:#fff;--cb:rgba(92,26,42,.08);--shadow:0 2px 16px rgba(44,24,16,.06);--wine:#722F37;--wine-lt:#9B4A54;--wine-dk:#4A1520;--gold:#C4942A;--text:#2C1810;--dim:#8B7355;--dim2:#C4B49A;--sb:env(safe-area-inset-bottom,0px);--st:env(safe-area-inset-top,0px);--sw:220px}
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
     html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px}
-    #wrap{height:100%;display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative;overflow:hidden}
+
+    /* ── LAYOUT ── */
+    #wrap{height:100%;display:flex;flex-direction:row;max-width:1280px;margin:0 auto;background:var(--bg);position:relative}
+    .sidebar{display:none}
+    #main-col{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
     header{flex-shrink:0;padding:14px 20px 10px;padding-top:calc(14px + var(--st));background:var(--bg)}
     main{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;background:var(--bg)}
     nav.bnav{flex-shrink:0;display:flex;background:#fff;border-top:1px solid rgba(92,26,42,.08);padding-bottom:var(--sb)}
-    #auth{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 28px;text-align:center;background:linear-gradient(180deg,#FAF5EE 0%,#F0E8DC 100%)}
-    .auth-logo{font-family:'Fraunces',serif;font-style:italic;font-size:80px;font-weight:300;line-height:1;margin-bottom:6px;color:var(--wine)}
+
+    /* ── DESKTOP ── */
+    @media(min-width:900px){
+      body{overflow:auto}
+      html,body{height:100%}
+      #wrap{box-shadow:0 0 60px rgba(0,0,0,.06);height:100vh;overflow:hidden}
+      .sidebar{display:flex;flex-direction:column;width:var(--sw);flex-shrink:0;background:#fff;border-right:1px solid var(--cb);padding:0;position:relative;z-index:10}
+      nav.bnav{display:none}
+      .sb-brand{padding:28px 24px 24px;border-bottom:1px solid var(--cb)}
+      .sb-logo{font-family:'Fraunces',serif;font-style:italic;font-size:32px;font-weight:300;color:var(--wine);line-height:1}
+      .sb-sub{font-size:11px;color:var(--dim);margin-top:2px;letter-spacing:.04em}
+      .sb-nav{padding:16px 12px;flex:1}
+      .sb-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;cursor:pointer;color:var(--dim);font-size:14px;font-weight:500;transition:.15s;margin-bottom:2px;user-select:none}
+      .sb-item:hover{background:var(--bg2)}
+      .sb-item.active{background:rgba(114,47,55,.08);color:var(--wine)}
+      .sb-item .sb-ic{font-size:18px;width:22px;text-align:center}
+      .sb-foot{padding:16px 12px;border-top:1px solid var(--cb)}
+      .sb-user{font-size:12px;color:var(--dim);padding:8px 14px}
+      .fnav{left:var(--sw);right:0;max-width:none}
+      .fab{right:32px}
+      #toast{left:calc(var(--sw) + 50%)}
+      .fbody{padding-bottom:100px}
+      /* 2-col layout for cata list */
+      .clist{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px 40px}
+      .clist>.empty{grid-column:1/-1}
+      .clist>.fab{display:none}
+      .home-fab-desktop{display:flex!important}
+    }
+
+    /* ── AUTH ── */
+    #auth{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 28px;text-align:center;background:linear-gradient(180deg,#FAF5EE 0%,#F0E8DC 100%)}
+    .auth-logo{font-family:'Fraunces',serif;font-style:italic;font-size:80px;font-weight:300;color:var(--wine);line-height:1;margin-bottom:6px}
     .auth-tag{font-size:14px;color:var(--dim);letter-spacing:.06em;margin-bottom:44px}
     .auth-card{width:100%;max-width:380px;background:#fff;border:1px solid var(--cb);border-radius:24px;padding:28px 22px;box-shadow:var(--shadow)}
     .atabs{display:flex;background:var(--bg2);border-radius:10px;padding:3px;margin-bottom:22px}
@@ -33,9 +67,10 @@
     .inp:focus{border-color:var(--wine);background:#fff}.inp::placeholder{color:var(--dim2)}
     textarea.inp{resize:vertical;min-height:110px;margin-bottom:0}
     .btn-grad{width:100%;padding:15px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--wine),var(--wine-dk));color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:.15s;margin-top:4px}
-    .btn-grad:active{transform:scale(.97);opacity:.9}
-    .spinner{width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block;vertical-align:middle}
+    .btn-grad:active{transform:scale(.97)}.spinner{width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block;vertical-align:middle}
     @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ── VIEWS ── */
     .view{display:none}.view.active{display:block;animation:vup .25s ease}
     @keyframes vup{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
     .hrow{display:flex;align-items:center;gap:12px}
@@ -50,17 +85,22 @@
     .ps.done{background:var(--gold)}.ps.cur{background:var(--wine)}
     .ni{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 0;cursor:pointer;color:var(--dim);font-size:10px;letter-spacing:.06em;text-transform:uppercase;gap:4px;font-weight:500;transition:.15s;user-select:none}
     .ni-ic{font-size:20px}.ni.active{color:var(--wine)}.ni:active{transform:scale(.88)}
+
+    /* ── HOME ── */
     .home-hi{padding:20px 20px 12px}
-    .home-g{font-family:'Fraunces',serif;font-style:italic;font-size:36px;font-weight:300;line-height:1.1;color:var(--text)}
+    .home-g{font-family:'Fraunces',serif;font-style:italic;font-size:36px;font-weight:300;line-height:1.1}
     .home-g strong{font-weight:500;color:var(--wine)}
     .home-s{font-size:13px;color:var(--dim);margin-top:5px}
-    .stats{display:flex;gap:10px;padding:0 20px 14px}
-    .stat{flex:1;background:#fff;border:1px solid var(--cb);border-radius:14px;padding:14px;text-align:center;box-shadow:var(--shadow)}
+    .stats{display:flex;gap:10px;padding:0 20px 6px}
+    .stat{flex:1;background:#fff;border:1px solid var(--cb);border-radius:14px;padding:14px;text-align:center;box-shadow:var(--shadow);cursor:pointer;transition:.15s}
+    .stat:active{transform:scale(.97)}
     .stat-n{font-family:'Fraunces',serif;font-size:28px;font-weight:400;color:var(--wine)}
     .stat-l{font-size:10px;color:var(--dim);margin-top:2px;text-transform:uppercase;letter-spacing:.06em;font-weight:500}
+    .stats-link{text-align:right;padding:6px 22px 12px;font-size:12px;color:var(--wine);cursor:pointer;font-weight:500}
     .swi{position:relative;padding:0 20px 14px}.swi::before{content:'🔍';position:absolute;left:34px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none}
     .search{width:100%;background:#fff;border:1px solid var(--cb);border-radius:12px;padding:11px 16px 11px 42px;color:var(--text);font-size:14px;outline:none;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.03)}
     .search:focus{border-color:var(--wine)}.search::placeholder{color:var(--dim2)}
+    .search-tip{padding:0 20px 10px;font-size:12px;color:var(--dim2)}
     .clist{padding:0 16px 120px;display:flex;flex-direction:column;gap:10px}
     .cc{background:#fff;border:1px solid var(--cb);border-radius:18px;padding:15px 16px;cursor:pointer;transition:.15s;display:flex;gap:14px;align-items:center;box-shadow:var(--shadow)}
     .cc:active{transform:scale(.98);border-color:var(--wine-lt)}
@@ -70,11 +110,14 @@
     .cc-score{font-family:'Fraunces',serif;font-size:28px;font-weight:400;color:var(--wine);flex-shrink:0}
     .fab{position:fixed;bottom:calc(76px + var(--sb));right:20px;width:56px;height:56px;background:linear-gradient(135deg,var(--wine),var(--wine-dk));border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;cursor:pointer;box-shadow:0 6px 24px rgba(114,47,55,.35);transition:.15s;z-index:50}
     .fab:active{transform:scale(.9)}
+    .home-fab-desktop{display:none;position:static;margin:16px 20px 0;width:auto;height:auto;border-radius:12px;padding:14px;font-size:15px;font-weight:500;box-shadow:0 4px 16px rgba(114,47,55,.25)}
     .empty{text-align:center;padding:60px 40px}.empty-ic{font-size:56px;opacity:.3;margin-bottom:16px}
     .empty-t{font-family:'Fraunces',serif;font-style:italic;font-size:22px;color:var(--dim);margin-bottom:8px}
     .empty-s{font-size:13px;color:var(--dim2);line-height:1.6}
+
+    /* ── FORM ── */
     .fbody{padding:8px 20px 145px}
-    .step-t{font-family:'Fraunces',serif;font-style:italic;font-size:32px;font-weight:300;line-height:1.05;margin-bottom:3px;color:var(--wine)}
+    .step-t{font-family:'Fraunces',serif;font-style:italic;font-size:32px;font-weight:300;color:var(--wine);margin-bottom:3px}
     .step-s{font-size:13px;color:var(--dim);margin-bottom:24px}
     .field{margin-bottom:20px}.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .chips{display:flex;flex-wrap:wrap;gap:7px}
@@ -88,8 +131,7 @@
     .color-hint{margin-top:10px;padding:10px 14px;background:rgba(114,47,55,.06);border:1px solid rgba(114,47,55,.15);border-radius:10px;font-size:13px;color:var(--wine)}
     .expand-block{margin-top:12px;padding:10px 0 4px 14px;border-left:3px solid rgba(114,47,55,.2);animation:vup .2s ease}
     .expand-header{font-size:11px;color:var(--wine);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
-    .expand-cat{margin-bottom:12px}
-    .expand-cat-t{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:6px}
+    .expand-cat{margin-bottom:12px}.expand-cat-t{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:6px}
     .score-wrap{text-align:center;padding:10px 0}
     .score-n{font-family:'Fraunces',serif;font-size:96px;font-weight:300;line-height:1;color:var(--wine)}
     .score-l{font-size:14px;color:var(--dim);margin-top:4px;font-style:italic}
@@ -101,6 +143,17 @@
     .btn-p{background:linear-gradient(135deg,var(--wine),var(--wine-dk));color:#fff;box-shadow:0 4px 16px rgba(114,47,55,.25)}
     .btn-g{background:#fff;border:1px solid var(--cb);color:var(--dim);flex:0 0 auto;padding:15px 18px}
     .btn-s{background:linear-gradient(135deg,var(--gold),#A07A18);color:#fff}
+
+    /* ── FOTO ── */
+    .foto-upload-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border:2px dashed rgba(114,47,55,.25);border-radius:12px;background:rgba(114,47,55,.03);color:var(--wine);font-size:14px;font-weight:500;cursor:pointer;transition:.15s}
+    .foto-upload-btn:active{background:rgba(114,47,55,.07)}
+    .foto-preview-img{width:100%;border-radius:12px;max-height:180px;object-fit:cover;margin-top:10px;border:1px solid var(--cb);display:block}
+    .foto-ok{font-size:12px;color:var(--wine);margin-top:6px;font-style:italic}
+    .foto-detail{width:100%;border-radius:16px;overflow:hidden;margin-bottom:20px;box-shadow:var(--shadow);position:relative}
+    .foto-detail img{width:100%;max-height:240px;object-fit:cover;display:block}
+    .foto-detail-label{position:absolute;bottom:0;left:0;right:0;padding:10px 14px;background:linear-gradient(transparent,rgba(0,0,0,.4));color:#fff;font-size:12px;font-style:italic}
+
+    /* ── DETAIL ── */
     .dwrap{padding:0 20px 120px}
     .dhero{display:flex;align-items:center;gap:16px;padding:16px 0 20px;border-bottom:1px solid var(--cb);margin-bottom:20px}
     .hdot{width:68px;height:68px;border-radius:50%;border:3px solid rgba(0,0,0,.06);flex-shrink:0}
@@ -111,9 +164,9 @@
     .dsec{margin-bottom:22px}
     .dsec-t{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--wine);padding-bottom:8px;border-bottom:1px solid var(--cb);margin-bottom:12px;font-weight:600}
     .drow{display:flex;justify-content:space-between;align-items:flex-start;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.04);font-size:14px;gap:12px}
-    .dl{color:var(--dim);flex-shrink:0}.dv{color:var(--text);text-align:right;font-weight:400}
+    .dl{color:var(--dim);flex-shrink:0}.dv{color:var(--text);text-align:right}
     .atags{display:flex;flex-wrap:wrap;gap:6px;padding:8px 0}
-    .atag{padding:5px 12px;background:rgba(114,47,55,.06);border:1px solid rgba(114,47,55,.12);border-radius:100px;font-size:12px;color:var(--wine)}
+    .atag{padding:5px 12px;background:rgba(114,47,55,.06);border:1px solid rgba(114,47,55,.12);border-radius:100px;font-size:12px;color:var(--wine);cursor:pointer}
     .ccom{font-size:14px;line-height:1.75;color:var(--text);font-style:italic;background:rgba(114,47,55,.04);padding:16px;border-radius:12px;border-left:3px solid var(--wine)}
     .dacts{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
     .btn-action{padding:12px 14px;border-radius:10px;font-size:13px;cursor:pointer;transition:.15s;font-weight:500;border:none;white-space:nowrap}
@@ -122,28 +175,86 @@
     .btn-share{background:rgba(196,148,42,.08);border:1px solid rgba(196,148,42,.25);color:var(--gold)}
     .btn-edit{background:#fff;border:1px solid var(--cb);color:var(--dim);flex:1}
     .btn-del{background:#fff;border:1px solid rgba(196,60,60,.2);color:#A04040}
+    .historial-card{background:var(--bg2);border:1px solid var(--cb);border-radius:12px;padding:12px 14px;cursor:pointer;transition:.15s;display:flex;gap:12px;align-items:center;margin-bottom:8px}
+    .historial-card:active{transform:scale(.97)}
+    .historial-dot{width:36px;height:36px;border-radius:50%;flex-shrink:0;border:2px solid rgba(0,0,0,.06)}
+    .historial-score{font-family:'Fraunces',serif;font-size:22px;font-weight:400;color:var(--wine);flex-shrink:0}
     .radar-wrap{display:flex;justify-content:center;padding:12px 0 4px}
     .radar-wrap svg text{font-family:'DM Sans',sans-serif;fill:var(--dim);font-size:10px}
-    /* FOTO */
-    .foto-upload-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border:2px dashed rgba(114,47,55,.25);border-radius:12px;background:rgba(114,47,55,.03);color:var(--wine);font-size:14px;font-weight:500;cursor:pointer;transition:.15s}
-    .foto-upload-btn:active{background:rgba(114,47,55,.07)}
-    .foto-preview-img{width:100%;border-radius:12px;max-height:180px;object-fit:cover;margin-top:10px;border:1px solid var(--cb);display:block}
-    .foto-ok{font-size:12px;color:var(--wine);margin-top:6px;font-style:italic}
-    .foto-detail{width:100%;border-radius:16px;overflow:hidden;margin-bottom:20px;box-shadow:var(--shadow);position:relative}
-    .foto-detail img{width:100%;max-height:240px;object-fit:cover;display:block}
-    .foto-detail-label{position:absolute;bottom:0;left:0;right:0;padding:10px 14px;background:linear-gradient(transparent,rgba(0,0,0,.4));color:#fff;font-size:12px;font-style:italic}
-    /* BIBLIOTECA */
+
+    /* ── BIBLIOTECA / APRENDER ── */
     .rwrap{padding:8px 20px 110px}.rsec{margin-bottom:28px}
     .rtitle{font-family:'Fraunces',serif;font-style:italic;font-size:22px;font-weight:300;color:var(--wine);margin-bottom:3px}
     .rrule{height:2px;background:linear-gradient(to right,var(--wine),transparent);margin:8px 0 14px;border-radius:1px}
     .aroma-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(min-width:900px){.aroma-grid{grid-template-columns:repeat(3,1fr)}}
     .aroma-card{background:#fff;border:1px solid var(--cb);border-radius:14px;padding:14px;cursor:pointer;transition:.15s;box-shadow:var(--shadow)}
     .aroma-card:active{transform:scale(.97)}.aroma-card-bar{height:4px;border-radius:2px;margin-bottom:10px}
     .aroma-card-name{font-family:'Fraunces',serif;font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px}
     .aroma-card-count{font-size:11px;color:var(--dim)}
     .aroma-detail{background:#fff;border:1px solid var(--cb);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
     .aroma-detail-title{font-family:'Fraunces',serif;font-size:18px;color:var(--wine);margin-bottom:12px;font-style:italic}
-    /* FLASHCARDS */
+
+    /* ── VARIETALES (Wine Folly style) ── */
+    .vt-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+    .vt-tab{padding:8px 16px;border-radius:100px;border:1px solid var(--cb);background:#fff;font-size:13px;font-weight:500;cursor:pointer;transition:.15s;color:var(--dim)}
+    .vt-tab.active{color:#fff}
+    .vt-tab.tb{background:linear-gradient(135deg,#E8D018,#C88800);border-color:transparent}
+    .vt-tab.tr{background:linear-gradient(135deg,#A01840,#620818);border-color:transparent}
+    .vt-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(min-width:900px){.vt-list{grid-template-columns:repeat(3,1fr)}}
+    .vt-card{background:#fff;border:1px solid var(--cb);border-radius:14px;overflow:hidden;cursor:pointer;transition:.15s;box-shadow:var(--shadow)}
+    .vt-card:active{transform:scale(.97)}
+    .vt-card-header{height:6px}
+    .vt-card-body{padding:14px}
+    .vt-card-name{font-family:'Fraunces',serif;font-size:16px;font-weight:500;font-style:italic;color:var(--text);margin-bottom:3px}
+    .vt-card-region{font-size:11px;color:var(--dim)}
+    .vt-card-aromas{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
+    .vt-card-ar{font-size:11px;background:var(--bg2);padding:3px 8px;border-radius:100px;color:var(--dim)}
+    /* Detail page */
+    .vt-detail-header{padding:24px 20px 20px;margin-bottom:0;border-bottom:1px solid var(--cb)}
+    .vt-detail-title{font-family:'Fraunces',serif;font-style:italic;font-size:36px;font-weight:300;line-height:1;margin-bottom:4px}
+    .vt-detail-region{font-size:13px;color:var(--dim)}
+    @media(min-width:900px){
+      .vt-detail-inner{display:grid;grid-template-columns:260px 1fr;gap:0}
+      .vt-detail-left{padding:20px;border-right:1px solid var(--cb)}
+      .vt-detail-right{padding:20px}
+    }
+    .vt-detail-left{padding:20px 20px 0}
+    .vt-detail-right{padding:0 20px 20px}
+    .vt-info-pills{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+    .vt-pill{display:flex;align-items:center;gap:5px;padding:6px 12px;background:var(--bg2);border-radius:100px;font-size:12px;color:var(--text)}
+    .vt-aromas-list{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+    .vt-aroma{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 10px;background:var(--bg2);border-radius:12px;font-size:11px;color:var(--dim);text-align:center;min-width:56px}
+    .vt-aroma-e{font-size:22px}
+    .vt-desc{font-size:14px;line-height:1.7;color:var(--text);margin-bottom:16px}
+    .vt-sec-t{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--wine);font-weight:600;margin-bottom:8px}
+    .vt-pairs{display:flex;flex-wrap:wrap;gap:6px}
+    .vt-pair{padding:5px 12px;background:rgba(114,47,55,.06);border:1px solid rgba(114,47,55,.12);border-radius:100px;font-size:12px;color:var(--wine)}
+    .vt-sims{display:flex;flex-wrap:wrap;gap:6px}
+    .vt-sim{padding:5px 12px;background:var(--bg2);border-radius:100px;font-size:12px;color:var(--dim);cursor:pointer;transition:.12s}
+    .vt-sim:hover{background:rgba(114,47,55,.08);color:var(--wine)}
+
+    /* ── STATS ── */
+    .swrap{padding:8px 20px 110px}
+    .scard{background:#fff;border:1px solid var(--cb);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+    .scard-title{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--wine);font-weight:600;margin-bottom:14px}
+    .big-stat-n{font-family:'Fraunces',serif;font-size:56px;font-weight:300;color:var(--wine);line-height:1}
+    .big-stat-l{font-size:13px;color:var(--dim);margin-top:4px;font-style:italic}
+    .stat-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .stat-row-label{font-size:13px;color:var(--text);min-width:90px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .stat-bar-wrap{flex:1;background:var(--bg2);border-radius:100px;height:8px;overflow:hidden}
+    .stat-bar{height:8px;border-radius:100px;background:linear-gradient(90deg,var(--wine),var(--wine-lt));transition:width .6s ease}
+    .stat-row-val{font-size:12px;color:var(--dim);min-width:28px;text-align:right;flex-shrink:0}
+    .score-dist{display:flex;gap:8px}
+    .score-dist-item{flex:1;text-align:center;background:var(--bg2);border-radius:12px;padding:12px 8px}
+    .score-dist-n{font-family:'Fraunces',serif;font-size:24px;font-weight:400;color:var(--wine)}
+    .score-dist-l{font-size:10px;color:var(--dim);margin-top:2px;line-height:1.3}
+    .aroma-cloud{display:flex;flex-wrap:wrap;gap:6px}
+    .aroma-tag-big{padding:6px 12px;border-radius:100px;font-size:13px;cursor:pointer;transition:.12s;border:none}
+    .aroma-tag-big:active{transform:scale(.95)}
+
+    /* ── FLASHCARDS ── */
     .fc-container{display:flex;flex-direction:column;align-items:center;padding:20px 0}
     .fc-card{width:100%;max-width:320px;min-height:200px;border-radius:20px;cursor:pointer;margin-bottom:20px;perspective:1000px}
     .fc-inner{width:100%;min-height:200px;transition:transform .5s;transform-style:preserve-3d;position:relative}
@@ -160,7 +271,8 @@
     .fc-btn:active{transform:scale(.95)}
     .fc-btn-prev{background:var(--bg2);color:var(--dim)}.fc-btn-next{background:var(--wine);color:#fff}
     .fc-counter{font-size:12px;color:var(--dim);margin-bottom:12px}
-    /* PROFILE */
+
+    /* ── PROFILE ── */
     .pwrap{padding:32px 20px 110px}
     .pavatar{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--wine),var(--wine-dk));display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px;box-shadow:0 6px 20px rgba(114,47,55,.2)}
     .pname{font-family:'Fraunces',serif;font-size:22px;font-style:italic;color:var(--text);text-align:center;margin-bottom:4px}
@@ -171,6 +283,7 @@
     .btn-out:active{background:var(--bg2)}
     .btn-excel{width:100%;padding:14px;border-radius:12px;border:1px solid rgba(114,47,55,.2);background:rgba(114,47,55,.05);color:var(--wine);font-size:15px;cursor:pointer;font-weight:500;margin-bottom:8px}
     .btn-excel:active{background:rgba(114,47,55,.1)}
+
     #toast{position:fixed;bottom:calc(80px + var(--sb));left:50%;transform:translateX(-50%) translateY(16px);background:var(--wine-dk);border-radius:12px;padding:12px 20px;font-size:13px;color:#fff;white-space:nowrap;opacity:0;transition:.25s;z-index:999;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.15)}
     #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
     ::-webkit-scrollbar{width:0}
@@ -179,6 +292,7 @@
 <body>
 <div id="toast"></div>
 
+<!-- AUTH -->
 <div id="auth">
   <div class="auth-logo">Cata</div><div class="auth-tag">tu diario de vinos</div>
   <div class="auth-card">
@@ -198,36 +312,146 @@
   </div>
 </div>
 
+<!-- APP -->
 <div id="wrap" style="display:none">
-  <header id="hdr"></header>
-  <main id="main">
-    <div class="view" id="v-home"></div>
-    <div class="view" id="v-nueva"></div>
-    <div class="view" id="v-ver"></div>
-    <div class="view" id="v-ref"></div>
-    <div class="view" id="v-profile"></div>
-  </main>
-  <nav class="bnav">
-    <div class="ni" id="ni-home" onclick="go('home')"><span class="ni-ic">🍷</span><span>Catas</span></div>
-    <div class="ni" id="ni-nueva" onclick="go('nueva')"><span class="ni-ic">✦</span><span>Nueva</span></div>
-    <div class="ni" id="ni-ref" onclick="go('ref')"><span class="ni-ic">📖</span><span>Aprender</span></div>
-    <div class="ni" id="ni-profile" onclick="go('profile')"><span class="ni-ic">◎</span><span>Perfil</span></div>
-  </nav>
+  <!-- SIDEBAR (desktop) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand"><div class="sb-logo">Cata</div><div class="sb-sub">Sommelier</div></div>
+    <nav class="sb-nav">
+      <div class="sb-item" id="sbi-home" onclick="go('home')"><span class="sb-ic">🍷</span>Mis Catas</div>
+      <div class="sb-item" id="sbi-nueva" onclick="go('nueva')"><span class="sb-ic">✦</span>Nueva cata</div>
+      <div class="sb-item" id="sbi-ref" onclick="go('ref')"><span class="sb-ic">📖</span>Aprender</div>
+      <div class="sb-item" id="sbi-stats" onclick="go('stats')"><span class="sb-ic">📊</span>Estadísticas</div>
+      <div class="sb-item" id="sbi-profile" onclick="go('profile')"><span class="sb-ic">◎</span>Perfil</div>
+    </nav>
+    <div class="sb-foot"><div class="sb-user" id="sb-user-label"></div></div>
+  </aside>
+
+  <div id="main-col">
+    <header id="hdr"></header>
+    <main id="main">
+      <div class="view" id="v-home"></div>
+      <div class="view" id="v-nueva"></div>
+      <div class="view" id="v-ver"></div>
+      <div class="view" id="v-ref"></div>
+      <div class="view" id="v-profile"></div>
+      <div class="view" id="v-stats"></div>
+    </main>
+    <nav class="bnav">
+      <div class="ni" id="ni-home" onclick="go('home')"><span class="ni-ic">🍷</span><span>Catas</span></div>
+      <div class="ni" id="ni-nueva" onclick="go('nueva')"><span class="ni-ic">✦</span><span>Nueva</span></div>
+      <div class="ni" id="ni-ref" onclick="go('ref')"><span class="ni-ic">📖</span><span>Aprender</span></div>
+      <div class="ni" id="ni-profile" onclick="go('profile')"><span class="ni-ic">◎</span><span>Perfil</span></div>
+    </nav>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
+/* ══ CONFIG ══ */
 const SUPA_URL='https://pzcvfzzbvqenipvsgbnr.supabase.co'
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB6Y3ZmenpidnFlbmlwdnNnYm5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3Nzc0NjcsImV4cCI6MjA5NDM1MzQ2N30.7RFcD18Bm6rnwXJAn66VCFrzbr4LrOHSysNeXBTgt8I'
 
+/* ══ COLORES DE CATA (ficha exacta) ══ */
 const COLORES={'Amarillo':[{n:'Pálido',h:'#F5F0C8'},{n:'Intenso',h:'#E8D018'},{n:'Dorado',h:'#D4A800'},{n:'Verdoso',h:'#D8E090'}],'Rosado':[{n:'Pálido',h:'#FADCE8'},{n:'Cereza',h:'#E06080'},{n:'Salmón',h:'#F09888'},{n:'Piel de cebolla',h:'#D4A890'}],'Rojo':[{n:'Rubí',h:'#A01840'},{n:'Violáceo',h:'#681880'},{n:'Granate',h:'#620818'},{n:'Teja',h:'#A85C40'}],'Marrón':[{n:'Ambarino',h:'#D08020'},{n:'Caoba',h:'#5A2810'}]}
+
+/* ══ AROMAS PERFIL ══ */
 const PA={'Frutado':[{c:'Cítricos',clr:'#C8B800',i:['Limón','Lima','Pomelo','Grosella espinosa']},{c:'Frutas de pepita',clr:'#8BA040',i:['Pera','Manzana','Manzana verde','Melocotón','Melón']},{c:'Frutas tropicales',clr:'#D09030',i:['Piña','Maracuyá','Lichi','Guayaba','Plátano','Cáscara de naranja']},{c:'Bayas rojas',clr:'#B83050',i:['Frambuesa','Grosella negra','Fresa','Mora','Cereza','Ciruela']},{c:'Frutas secas',clr:'#8A1830',i:['Pasa','Higo seco','Ciruela pasa','Albaricoque seco']}],'Floral':[{c:'Flores',clr:'#B06888',i:['Violeta','Rosa','Lavanda','Jazmín','Acacia','Tilo','Flor de naranja','Madreselva','Majuelo']}],'Herbáceo':[{c:'Vegetales',clr:'#5A8838',i:['Pimiento verde','Tomate','Hinojo','Hierba cortada','Helecho']}],'Herbal':[{c:'Hierbas',clr:'#7A9040',i:['Tomillo','Eneldo','Menta','Eucalipto','Heno','Té negro','Tabaco','Hoja de grosella','Hoja de tomate']}],'Especiado':[{c:'Especias',clr:'#B07830',i:['Pimienta','Canela','Regaliz','Nuez moscada','Clavo de olor','Alquitrán','Humo']}],'Madera':[{c:'Maderas',clr:'#8A5828',i:['Roble','Cedro','Sándalo','Pino','Coco','Avellana','Almendra']}],'Otros':[{c:'Mineral',clr:'#708090',i:['Sílex','Queroseno','Yodo','Tierra','Grafito','Pan']},{c:'Tostados',clr:'#A06028',i:['Café','Chocolate','Caramelo','Vainilla','Mantequilla','Tostada','Tocino']},{c:'Animal',clr:'#806050',i:['Cuero','Miel','Membrillo','Cera','Almizcle']},{c:'Añejamiento',clr:'#685848',i:['Seta','Musgo','Trufa','Tierra húmeda','Jerez']},{c:'Defectos',clr:'#607070',i:['Corcho','Oxidado','Brett','Aceteza volátil','Azufre']}]}
+
+/* ══ VARIETALES (Wine Folly style) ══
+   p = [cuerpo, dulzor, acidez, tanino, alcohol] escala 0-4
+   t = b(lanco) | r(ojo) | s(rosado)              */
+const V=[
+  {n:'Chardonnay',t:'b',c:'#E8D018',e:['🍋','🍐','🧈','🍞','🍍'],
+   p:[3,1,2,0,3],ar:['Manzana verde','Pera','Mantequilla','Tostada','Piña tropical'],
+   desc:'El blanco más famoso del mundo. Sin madera: fresco y mineral. Con roble: cremoso y opulento.',
+   tp:'10-13°C',dc:false,gd:'2-7 años',pr:'$$',rg:'Borgoña · California · Mendoza · Chablis',
+   mr:['Pollo asado','Langosta','Risotto','Quesos blandos'],sm:['Viognier','Pinot Gris','Roussanne']},
+  {n:'Sauvignon Blanc',t:'b',c:'#D8E090',e:['🍊','🌿','🍍','🫑','🍈'],
+   p:[2,1,3,0,2],ar:['Pomelo','Hierba cortada','Maracuyá','Pimiento verde','Guayaba'],
+   desc:'Aromático y de alta acidez. Herbáceo en Loira, tropical en Marlborough.',
+   tp:'8-12°C',dc:false,gd:'1-3 años',pr:'$',rg:'Loira · Marlborough · Chile · Bordeaux',
+   mr:['Mariscos','Sushi','Queso de cabra','Espárragos'],sm:['Verdejo','Grüner Veltliner','Albariño']},
+  {n:'Riesling',t:'b',c:'#F5F0C8',e:['🍋','🍑','🍯','⛽','🌸'],
+   p:[1,2,4,0,1],ar:['Limón','Melocotón','Miel','Petróleo','Flores blancas'],
+   desc:'La uva más noble de Alemania. Puede ir de muy seco a dulce. Alta acidez y gran longevidad.',
+   tp:'7-10°C',dc:false,gd:'5-20 años',pr:'$$',rg:'Mosela · Alsacia · Austria · Australia',
+   mr:['Cerdo','Comida asiática','Quesos azules','Foie gras'],sm:['Gewurztraminer','Pinot Gris','Chenin Blanc']},
+  {n:'Chenin Blanc',t:'b',c:'#F2C840',e:['🍐','🍎','🍯','🌸','🫐'],
+   p:[2,2,3,0,2],ar:['Membrillo','Manzana amarilla','Miel','Flor de naranja','Pera'],
+   desc:'Increíblemente versátil: seco, semidulce, espumoso o botrytis. Alta acidez, gran longevidad.',
+   tp:'8-12°C',dc:false,gd:'3-15 años',pr:'$',rg:'Loira · Sudáfrica · Argentina · California',
+   mr:['Pollo con salsa','Quesos suaves','Cerdo','Frutas'],sm:['Riesling','Viognier','Pinot Gris']},
+  {n:'Viognier',t:'b',c:'#E0A800',e:['🍑','🌸','🍦','🌺','🧁'],
+   p:[3,2,1,0,3],ar:['Melocotón','Jazmín','Albaricoque','Crema','Vainilla'],
+   desc:'Blanco aromático y de cuerpo lleno. Muy perfumado, casi opulento. Baja acidez.',
+   tp:'10-13°C',dc:false,gd:'1-4 años',pr:'$$',rg:'Ródano norte · California · Australia · Argentina',
+   mr:['Langosta','Pollo con crema','Especias','Foie gras'],sm:['Chardonnay','Roussanne','Marsanne']},
+  {n:'Torrontés',t:'b',c:'#D8D030',e:['🌹','🍑','🌸','🍋','🌺'],
+   p:[2,2,1,0,2],ar:['Rosa','Durazno','Flor de naranja','Limón','Canela'],
+   desc:'Emblema de Argentina. Muy aromático con acidez media y sabor seco pese a sus aromas florales.',
+   tp:'7-10°C',dc:false,gd:'1-2 años',pr:'$',rg:'Salta · La Rioja · Mendoza (Argentina)',
+   mr:['Mariscos','Ceviche','Comida picante','Queso fresco'],sm:['Gewurztraminer','Moscato','Riesling']},
+  {n:'Albariño',t:'b',c:'#F5E87C',e:['🍑','🍋','🍈','🌸','🫐'],
+   p:[2,1,3,0,2],ar:['Melocotón','Lima','Nectarina','Flor blanca','Almendra'],
+   desc:'El gran blanco de Galicia. Fresco y aromático, alta acidez y ligero amargor final.',
+   tp:'8-11°C',dc:false,gd:'1-3 años',pr:'$$',rg:'Rías Baixas · Portugal (Vinho Verde)',
+   mr:['Mariscos','Pulpo','Pescado','Mejillones'],sm:['Sauvignon Blanc','Verdejo','Grüner Veltliner']},
+  // TINTOS
+  {n:'Cabernet Sauvignon',t:'r',c:'#620818',e:['🫐','🌲','🚬','🍦','🌿'],
+   p:[4,1,3,4,3],ar:['Grosella negra','Cedro','Tabaco','Vainilla','Menta'],
+   desc:'El rey de los tintos. Tánico, de mucho cuerpo y gran capacidad de envejecimiento. Base del Bordeaux.',
+   tp:'17-20°C',dc:true,gd:'10-25 años',pr:'$$-$$$',rg:'Bordeaux · Napa Valley · Maipo · Coonawarra',
+   mr:['Carne asada','Cordero','Quesos añejos','Estofados'],sm:['Merlot','Cabernet Franc','Sangiovese']},
+  {n:'Merlot',t:'r',c:'#A01840',e:['🍒','🍫','🌶️','🫐','🍑'],
+   p:[3,2,2,2,3],ar:['Cereza','Ciruela','Chocolate','Especias','Higo'],
+   desc:'Suave y accesible. Menos tánico que el Cabernet, frutas rojas y negras maduras. Perfecto para iniciarse.',
+   tp:'16-18°C',dc:false,gd:'3-10 años',pr:'$-$$',rg:'Bordeaux · Pomerol · California · Chile',
+   mr:['Pasta con carne','Pato','Quesos semi-añejos','Cordero suave'],sm:['Cabernet Franc','Malbec','Carménère']},
+  {n:'Pinot Noir',t:'r',c:'#C84060',e:['🍓','🌹','🍂','🌰','🍄'],
+   p:[2,1,3,1,2],ar:['Frambuesa','Cereza','Rosas','Tierra','Hongos'],
+   desc:'El más elegante y difícil de cultivar. Translúcido, aromático y sedoso. La gran uva de Borgoña.',
+   tp:'14-16°C',dc:false,gd:'3-10 años',pr:'$$$',rg:'Borgoña · Oregón · Marlborough · Patagonia',
+   mr:['Pato','Salmón','Trufa','Pollo asado','Quesos suaves'],sm:['Gamay','Grenache','Nero d\'Avola']},
+  {n:'Malbec',t:'r',c:'#681880',e:['🍇','🫐','💐','🍫','🍦'],
+   p:[4,2,2,3,3],ar:['Ciruela negra','Mora','Violeta','Chocolate','Vainilla'],
+   desc:'Emblema de Argentina. Color intenso, frutas negras, violeta y buena estructura tánica.',
+   tp:'16-18°C',dc:true,gd:'3-10 años',pr:'$-$$',rg:'Mendoza · Luján de Cuyo · Cahors (Francia)',
+   mr:['Asado argentino','Carne a la parrilla','Empanadas','Quesos duros'],sm:['Syrah','Cabernet Sauvignon','Tannat']},
+  {n:'Syrah / Shiraz',t:'r',c:'#460860',e:['🫐','🌶️','🫒','💐','🥓'],
+   p:[4,1,2,3,3],ar:['Mora','Pimienta negra','Aceituna negra','Violeta','Tocino ahumado'],
+   desc:'Pimienta en el Norte del Ródano, opulento en Australia. Intenso, especiado y de color profundo.',
+   tp:'16-20°C',dc:true,gd:'5-15 años',pr:'$$',rg:'Ródano · Barossa Valley · Mendoza · Sudáfrica',
+   mr:['Cordero asado','Caza','BBQ','Quesos muy curados'],sm:['Mourvèdre','Grenache','Petite Sirah']},
+  {n:'Tempranillo',t:'r',c:'#882028',e:['🍒','🍓','👞','🚬','🍦'],
+   p:[3,1,2,2,2],ar:['Cereza','Fresa','Cuero','Tabaco','Vainilla'],
+   desc:'La gran uva española. Elegante, frutas rojas, cuero y notas de roble. Base del Rioja y Ribera.',
+   tp:'15-18°C',dc:true,gd:'3-15 años',pr:'$$',rg:'Rioja · Ribera del Duero · Toro · Argentina',
+   mr:['Cochinillo','Cordero','Quesos manchegos','Embutidos'],sm:['Grenache','Graciano','Mazuelo']},
+  {n:'Sangiovese',t:'r',c:'#A01840',e:['🍒','🍅','🌿','👞','🫙'],
+   p:[3,1,4,3,2],ar:['Cereza','Tomate seco','Especias','Cuero','Hierbas'],
+   desc:'La más plantada de Italia. Alta acidez y taninos firmes. Base del Chianti y Brunello di Montalcino.',
+   tp:'15-18°C',dc:true,gd:'3-15 años',pr:'$$',rg:'Toscana · Emilia-Romaña · Argentina · California',
+   mr:['Pasta con tomate','Pizza','Bistecca','Prosciutto'],sm:['Nebbiolo','Montepulciano','Barbera']},
+  {n:'Bonarda',t:'r',c:'#9040A0',e:['🫐','💐','🍫','🌶️','🍇'],
+   p:[3,2,2,2,3],ar:['Ciruela','Violeta','Mora','Chocolate negro','Especias'],
+   desc:'Segunda uva más plantada de Argentina. Frutal, jugosa, color intenso. Muy accesible y versátil.',
+   tp:'15-17°C',dc:false,gd:'2-5 años',pr:'$',rg:'Mendoza · San Juan · Emilia-Romaña (Italia)',
+   mr:['Pizza','Pasta','Hamburguesa','Asado liviano'],sm:['Merlot','Dolcetto','Croatina']},
+  {n:'Nebbiolo',t:'r',c:'#3E0408',e:['🌹','⛽','🍒','🚬','👞'],
+   p:[4,1,4,4,3],ar:['Rosa','Alquitrán','Cereza seca','Tabaco','Cuero'],
+   desc:'La uva más seria de Italia. Extrema acidez y taninos. Necesita años para suavizarse. Base del Barolo.',
+   tp:'16-18°C',dc:true,gd:'10-30 años',pr:'$$$',rg:'Piamonte (Italia)',
+   mr:['Trufas','Caza mayor','Risotto de hongos','Quesos añejos'],sm:['Sangiovese','Barbera','Aglianico']},
+]
+
 const STEPS=[{t:'¿Qué catamos?',s:'Identificación del vino'},{t:'Vista',s:'Examen visual'},{t:'Nariz',s:'Perfil aromático'},{t:'Boca',s:'Análisis gustativo'},{t:'Cata comercial',s:'Puntuación y notas'}]
 
+/* ══ STATE ══ */
 const db=supabase.createClient(SUPA_URL,SUPA_KEY)
-const S={user:null,catas:[],view:'home',authMode:'login',step:0,f:{},id:null,search:'',refView:'main',fcIdx:0,fcFlipped:false}
+const S={user:null,catas:[],view:'home',authMode:'login',step:0,f:{},id:null,search:'',refView:'main',vtTab:'b',vtIdx:-1,fcIdx:0,fcFlipped:false}
 let flashDeck=[]
 
 function fmt(d){return new Date(d).toLocaleDateString('es-AR',{day:'2-digit',month:'short',year:'numeric'})}
@@ -235,122 +459,71 @@ function sL(s){s=+s;if(s>=97)return'Perfección';if(s>=93)return'Excepcional';if
 function avg(){const w=S.catas.filter(c=>c.score);return w.length?Math.round(w.reduce((a,c)=>a+(+c.score),0)/w.length):'—'}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
 
-/* AUTH */
+/* ══ AUTH ══ */
 function setMode(m){S.authMode=m;const tabs=document.getElementById('auth-tabs'),pw=document.getElementById('pw-wrap'),nw=document.getElementById('nw'),lnk=document.getElementById('auth-links'),bk=document.getElementById('back-link'),btn=document.getElementById('abtn');document.getElementById('amsg').innerHTML='';document.getElementById('tab-in').classList.toggle('active',m==='login');document.getElementById('tab-up').classList.toggle('active',m==='register');if(m==='login'){tabs.style.display='flex';pw.style.display='block';nw.style.display='none';lnk.style.display='flex';bk.style.display='none';btn.textContent='Ingresar'}else if(m==='register'){tabs.style.display='flex';pw.style.display='block';nw.style.display='block';lnk.style.display='none';bk.style.display='none';btn.textContent='Crear cuenta'}else if(m==='magic'){tabs.style.display='none';pw.style.display='none';nw.style.display='none';lnk.style.display='none';bk.style.display='block';btn.textContent='Enviar link de acceso';document.getElementById('amsg').innerHTML='<div class="auth-ok">Te mandamos un link al email. Hacé click y entrás directo.</div>'}else if(m==='reset'){tabs.style.display='none';pw.style.display='none';nw.style.display='none';lnk.style.display='none';bk.style.display='block';btn.textContent='Enviar link de recuperación'}}
-async function handleAuth(){const em=document.getElementById('a-em').value.trim(),pw=document.getElementById('a-pw').value;if(!em){document.getElementById('amsg').innerHTML='<div class="auth-err">Ingresá tu email</div>';return}const b=document.getElementById('abtn');b.innerHTML='<span class="spinner"></span>';b.disabled=true;const labels={login:'Ingresar',register:'Crear cuenta',magic:'Enviar link de acceso',reset:'Enviar link de recuperación'};let e;if(S.authMode==='login'){e=(await db.auth.signInWithPassword({email:em,password:pw})).error}else if(S.authMode==='register'){const nm=document.getElementById('a-nm').value.trim();e=(await db.auth.signUp({email:em,password:pw,options:{data:{name:nm}}})).error;if(!e)document.getElementById('amsg').innerHTML='<div class="auth-ok">✓ Cuenta creada, ya podés ingresar</div>'}else if(S.authMode==='magic'){e=(await db.auth.signInWithOtp({email:em,options:{emailRedirectTo:window.location.origin}})).error;if(!e){document.getElementById('amsg').innerHTML='<div class="auth-ok">✓ Revisá tu email, te mandamos el link</div>';b.textContent=labels.magic;b.disabled=false;return}}else if(S.authMode==='reset'){e=(await db.auth.resetPasswordForEmail(em,{redirectTo:window.location.origin})).error;if(!e){document.getElementById('amsg').innerHTML='<div class="auth-ok">✓ Revisá tu email para recuperar la contraseña</div>';b.textContent=labels.reset;b.disabled=false;return}}b.textContent=labels[S.authMode];b.disabled=false;if(e)document.getElementById('amsg').innerHTML='<div class="auth-err">'+e.message+'</div>'}
+async function handleAuth(){const em=document.getElementById('a-em').value.trim(),pw=document.getElementById('a-pw').value;if(!em){document.getElementById('amsg').innerHTML='<div class="auth-err">Ingresá tu email</div>';return}const b=document.getElementById('abtn');b.innerHTML='<span class="spinner"></span>';b.disabled=true;const L={login:'Ingresar',register:'Crear cuenta',magic:'Enviar link de acceso',reset:'Enviar link de recuperación'};let e;if(S.authMode==='login'){e=(await db.auth.signInWithPassword({email:em,password:pw})).error}else if(S.authMode==='register'){const nm=document.getElementById('a-nm').value.trim();e=(await db.auth.signUp({email:em,password:pw,options:{data:{name:nm}}})).error;if(!e)document.getElementById('amsg').innerHTML='<div class="auth-ok">✓ Cuenta creada, ya podés ingresar</div>'}else if(S.authMode==='magic'){e=(await db.auth.signInWithOtp({email:em,options:{emailRedirectTo:window.location.origin}})).error;if(!e){document.getElementById('amsg').innerHTML='<div class="auth-ok">✓ Revisá tu email, te mandamos el link</div>';b.textContent=L.magic;b.disabled=false;return}}else if(S.authMode==='reset'){e=(await db.auth.resetPasswordForEmail(em,{redirectTo:window.location.origin})).error;if(!e){document.getElementById('amsg').innerHTML='<div class="auth-ok">✓ Revisá tu email para recuperar la contraseña</div>';b.textContent=L.reset;b.disabled=false;return}}b.textContent=L[S.authMode];b.disabled=false;if(e)document.getElementById('amsg').innerHTML='<div class="auth-err">'+e.message+'</div>'}
 async function signOut(){await db.auth.signOut()}
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('auth').style.display!=='none')handleAuth()})
 
-/* FOTO */
-function handleFotoChange(input){
-  const file=input.files[0];if(!file)return
-  S.f.fotoFile=file
-  const reader=new FileReader()
-  reader.onload=ev=>{
-    S.f.fotoPreview=ev.target.result
-    const prev=document.getElementById('foto-preview')
-    if(prev){prev.innerHTML=`<img src="${ev.target.result}" class="foto-preview-img"><div class="foto-ok">✓ Foto lista para guardar</div>`}
-    const btn=document.getElementById('foto-upload-btn')
-    if(btn)btn.textContent='📷 Cambiar foto'
-  }
-  reader.readAsDataURL(file)
-}
-async function uploadFoto(file){
-  const ext=file.name.split('.').pop().toLowerCase()||'jpg'
-  const path=`${S.user.id}/${Date.now()}.${ext}`
-  const{error}=await db.storage.from('etiquetas').upload(path,file,{upsert:true})
-  if(error){console.error(error);return null}
-  return db.storage.from('etiquetas').getPublicUrl(path).data.publicUrl
-}
+/* ══ FOTO ══ */
+function handleFotoChange(input){const file=input.files[0];if(!file)return;S.f.fotoFile=file;const r=new FileReader();r.onload=ev=>{S.f.fotoPreview=ev.target.result;const p=document.getElementById('foto-preview');if(p)p.innerHTML=`<img src="${ev.target.result}" class="foto-preview-img"><div class="foto-ok">✓ Foto lista para guardar</div>`;const btn=document.getElementById('foto-upload-btn');if(btn)btn.textContent='📷 Cambiar foto'};r.readAsDataURL(file)}
+async function uploadFoto(file){const ext=file.name.split('.').pop().toLowerCase()||'jpg';const path=`${S.user.id}/${Date.now()}.${ext}`;const{error}=await db.storage.from('etiquetas').upload(path,file,{upsert:true});if(error){console.error(error);return null};return db.storage.from('etiquetas').getPublicUrl(path).data.publicUrl}
 
-/* DATA */
+/* ══ DATA ══ */
 async function loadCatas(){const{data}=await db.from('catas').select('*').order('created_at',{ascending:false});S.catas=data||[]}
-async function saveCata(){
-  const f=S.f
-  let foto_url=f.foto_url||null
-  if(f.fotoFile){
-    toast('Subiendo foto...')
-    foto_url=await uploadFoto(f.fotoFile)
-  }
-  const row={user_id:S.user.id,bodega:f.bodega||null,etiqueta:f.etiqueta||null,varietal:f.varietal||null,anada:f.añada||null,origen:f.origen||null,precio:f.precio||null,foto_url,apariencia:f.apariencia||null,intensidad_vista:f.intV||null,color_base:f.cBase||null,color_shade:f.cShade||null,color_hex:f.cHex||null,reflejo:!!f.reflejo,limpidez:f.limpidez||null,intensidad_nariz:f.intN||null,desarrollo:f.desarrollo||null,perfil_nariz:f.pN||null,complejidad_nariz:f.compN||null,aromas_nariz:f.aN||null,dulzor:f.dulzor||null,volumen:f.volumen||null,acidez:f.acidez||null,alcohol:f.alcohol||null,tanino:f.tanino||null,intensidad_sabor:f.intS||null,perfil_boca:f.pB||null,complejidad_boca:f.compB||null,aromas_boca:f.aB||null,persistencia:f.persistencia||null,final:f.final||null,score:f.score?+f.score:null,cata_com:f.cataCom||null}
-  let e
-  if(f._id){e=(await db.from('catas').update(row).eq('id',f._id)).error}
-  else{e=(await db.from('catas').insert(row)).error}
-  if(e){toast('Error: '+e.message);return}
-  await loadCatas();toast('¡Cata guardada! 🍷');go('home')
-}
+async function saveCata(){const f=S.f;let foto_url=f.foto_url||null;if(f.fotoFile){toast('Subiendo foto...');foto_url=await uploadFoto(f.fotoFile)};const row={user_id:S.user.id,bodega:f.bodega||null,etiqueta:f.etiqueta||null,varietal:f.varietal||null,anada:f.añada||null,origen:f.origen||null,precio:f.precio||null,foto_url,apariencia:f.apariencia||null,intensidad_vista:f.intV||null,color_base:f.cBase||null,color_shade:f.cShade||null,color_hex:f.cHex||null,reflejo:!!f.reflejo,limpidez:f.limpidez||null,intensidad_nariz:f.intN||null,desarrollo:f.desarrollo||null,perfil_nariz:f.pN||null,complejidad_nariz:f.compN||null,aromas_nariz:f.aN||null,dulzor:f.dulzor||null,volumen:f.volumen||null,acidez:f.acidez||null,alcohol:f.alcohol||null,tanino:f.tanino||null,intensidad_sabor:f.intS||null,perfil_boca:f.pB||null,complejidad_boca:f.compB||null,aromas_boca:f.aB||null,persistencia:f.persistencia||null,final:f.final||null,score:f.score?+f.score:null,cata_com:f.cataCom||null};let e;if(f._id){e=(await db.from('catas').update(row).eq('id',f._id)).error}else{e=(await db.from('catas').insert(row)).error};if(e){toast('Error: '+e.message);return};await loadCatas();toast('¡Cata guardada! 🍷');go('home')}
 async function deleteCata(id){if(!confirm('¿Eliminar esta cata?'))return;await db.from('catas').delete().eq('id',id);await loadCatas();toast('Eliminada');go('home')}
 
-/* SHARE */
+/* ══ SHARE / PDF / EXCEL ══ */
 async function shareCata(id){const c=S.catas.find(x=>x.id===id);if(!c)return;const t=`🍷 ${c.etiqueta||c.bodega||'Cata'}\n${[c.varietal,c.anada,c.origen].filter(Boolean).join(' · ')}\n\n🏆 ${c.score?c.score+'/100 — '+sL(c.score):'Sin puntaje'}\n👁 ${[c.apariencia,c.color_base,c.color_shade].filter(Boolean).join(' · ')}\n👃 ${(c.perfil_nariz||[]).join(', ')||'—'}${c.aromas_nariz?.length?'\n   '+c.aromas_nariz.join(', '):''}\n👅 ${[c.dulzor,c.acidez?'Acidez '+c.acidez:'',c.tanino?'Tanino '+c.tanino:''].filter(Boolean).join(' · ')}${c.cata_com?'\n\n📝 '+c.cata_com:''}\n\n— Cata App`;if(navigator.share){try{await navigator.share({title:c.etiqueta||'Cata',text:t})}catch(e){}}else{await navigator.clipboard.writeText(t);toast('Copiado al portapapeles')}}
+function exportPDF(id){const c=S.catas.find(x=>x.id===id);if(!c||!window.jspdf)return;const{jsPDF}=window.jspdf;const doc=new jsPDF();doc.setFillColor(114,47,55);doc.rect(0,0,210,30,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','italic');doc.setFontSize(20);doc.text(c.etiqueta||c.bodega||'Ficha de Cata',14,20);if(c.score){doc.setFont('helvetica','bold');doc.setFontSize(22);doc.text(String(c.score),183,20,'right');doc.setFontSize(8);doc.text(sL(c.score),183,26,'right')};doc.setFillColor(242,236,226);doc.rect(0,30,210,12,'F');doc.setTextColor(139,115,85);doc.setFont('helvetica','normal');doc.setFontSize(9);const meta=[c.varietal,c.anada,c.origen].filter(Boolean).join('  ·  ');if(meta)doc.text(meta,14,38);doc.text('Fecha: '+fmt(c.created_at),196,38,'right');doc.setTextColor(44,24,16);let y=50;const sec=t=>{if(y>265){doc.addPage();y=20};doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(114,47,55);doc.text(t.toUpperCase(),14,y);doc.setDrawColor(114,47,55);doc.setLineWidth(0.3);doc.line(14,y+2,196,y+2);y+=9;doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(44,24,16)};const row=(l,v)=>{if(!v||(Array.isArray(v)&&!v.length))return;if(y>272){doc.addPage();y=20};doc.setTextColor(139,115,85);doc.setFontSize(8);doc.text(l,14,y);doc.setTextColor(44,24,16);doc.setFontSize(10);const txt=Array.isArray(v)?v.join(', '):String(v);const lines=doc.splitTextToSize(txt,122);doc.text(lines,74,y);y+=Math.max(lines.length*5,7)+1};sec('¿Qué catamos?');row('Bodega',c.bodega);row('Etiqueta',c.etiqueta);row('Varietal',c.varietal);row('Añada',c.anada);row('Origen',c.origen);if(c.precio)row('Precio','$'+c.precio);y+=4;sec('Vista');row('Apariencia',c.apariencia);row('Intensidad',c.intensidad_vista);row('Color',[c.color_base,c.color_shade].filter(Boolean).join(' '));if(c.reflejo)row('Reflejo','Sí');y+=4;sec('Nariz');row('Limpidez',c.limpidez);row('Intensidad',c.intensidad_nariz);row('Desarrollo',c.desarrollo);row('Perfil',c.perfil_nariz);row('Complejidad',c.complejidad_nariz);if(c.aromas_nariz?.length)row('Aromas',c.aromas_nariz);y+=4;sec('Boca');row('Dulzor',c.dulzor);row('Volumen',c.volumen);row('Acidez',c.acidez);row('Alcohol',c.alcohol);row('Tanino',c.tanino);row('Intensidad',c.intensidad_sabor);row('Perfil',c.perfil_boca);row('Complejidad',c.complejidad_boca);row('Persistencia',c.persistencia);row('Final',c.final);if(c.aromas_boca?.length)row('Aromas en boca',c.aromas_boca);y+=4;if(c.cata_com){if(y>240){doc.addPage();y=20};sec('Cata Comercial');const lines=doc.splitTextToSize(c.cata_com,182);doc.text(lines,14,y)};doc.setFontSize(7);doc.setTextColor(180,160,140);doc.text('Generado con Cata App  ·  '+fmt(Date.now()),14,290);doc.save((c.etiqueta||c.bodega||'cata').replace(/[\s/]+/g,'-')+'.pdf');toast('PDF descargado ✓')}
+function exportExcel(){if(!S.catas.length){toast('No hay catas para exportar');return};const data=S.catas.map(c=>({'Bodega':c.bodega||'','Etiqueta':c.etiqueta||'','Varietal':c.varietal||'','Añada':c.anada||'','Origen':c.origen||'','Precio':c.precio||'','Apariencia':c.apariencia||'','Intensidad Visual':c.intensidad_vista||'','Color Base':c.color_base||'','Matiz':c.color_shade||'','Reflejo':c.reflejo?'Sí':'','Limpidez':c.limpidez||'','Intensidad Aromática':c.intensidad_nariz||'','Desarrollo':c.desarrollo||'','Perfil Nariz':(c.perfil_nariz||[]).join(', '),'Complejidad Nariz':c.complejidad_nariz||'','Aromas Nariz':(c.aromas_nariz||[]).join(', '),'Dulzor':c.dulzor||'','Volumen':c.volumen||'','Acidez':c.acidez||'','Alcohol':c.alcohol||'','Tanino':c.tanino||'','Intensidad Sabor':c.intensidad_sabor||'','Perfil Boca':(c.perfil_boca||[]).join(', '),'Complejidad Boca':c.complejidad_boca||'','Aromas Boca':(c.aromas_boca||[]).join(', '),'Persistencia':c.persistencia||'','Final':c.final||'','Puntaje':c.score||'','Calificación':c.score?sL(c.score):''  ,'Cata Comercial':c.cata_com||'','Fecha':fmt(c.created_at)}));const ws=XLSX.utils.json_to_sheet(data);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Mis Catas');XLSX.writeFile(wb,'mis-catas.xlsx');toast('Excel descargado ✓')}
 
-/* PDF */
-function exportPDF(id){
-  const c=S.catas.find(x=>x.id===id);if(!c){toast('Error al generar PDF');return}
-  if(!window.jspdf){toast('PDF no disponible');return}
-  const{jsPDF}=window.jspdf;const doc=new jsPDF()
-  // Encabezado
-  doc.setFillColor(114,47,55);doc.rect(0,0,210,30,'F')
-  doc.setTextColor(255,255,255);doc.setFont('helvetica','italic');doc.setFontSize(20)
-  doc.text(c.etiqueta||c.bodega||'Ficha de Cata',14,20)
-  if(c.score){doc.setFont('helvetica','bold');doc.setFontSize(22);doc.text(String(c.score),183,20,'right');doc.setFontSize(8);doc.text(sL(c.score),183,26,'right')}
-  // Metadata bajo el header
-  doc.setFillColor(242,236,226);doc.rect(0,30,210,12,'F')
-  doc.setTextColor(139,115,85);doc.setFont('helvetica','normal');doc.setFontSize(9)
-  const meta=[c.varietal,c.anada,c.origen].filter(Boolean).join('  ·  ')
-  if(meta)doc.text(meta,14,38)
-  doc.text('Fecha: '+fmt(c.created_at),196,38,'right')
-  doc.setTextColor(44,24,16);let y=50
-  const sec=t=>{if(y>265){doc.addPage();y=20};doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(114,47,55);doc.text(t.toUpperCase(),14,y);doc.setDrawColor(114,47,55);doc.setLineWidth(0.3);doc.line(14,y+2,196,y+2);y+=9;doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(44,24,16)}
-  const row=(l,v)=>{if(!v||(Array.isArray(v)&&!v.length))return;if(y>272){doc.addPage();y=20};doc.setTextColor(139,115,85);doc.setFontSize(8);doc.text(l,14,y);doc.setTextColor(44,24,16);doc.setFontSize(10);const txt=Array.isArray(v)?v.join(', '):String(v);const lines=doc.splitTextToSize(txt,122);doc.text(lines,74,y);y+=Math.max(lines.length*5,7)+1}
-  sec('¿Qué catamos?');row('Bodega',c.bodega);row('Etiqueta',c.etiqueta);row('Varietal',c.varietal);row('Añada',c.anada);row('Origen',c.origen);if(c.precio)row('Precio','$'+c.precio);y+=4
-  sec('Vista');row('Apariencia',c.apariencia);row('Intensidad',c.intensidad_vista);row('Color',[c.color_base,c.color_shade].filter(Boolean).join(' '));if(c.reflejo)row('Reflejo','Sí');y+=4
-  sec('Nariz');row('Limpidez',c.limpidez);row('Intensidad',c.intensidad_nariz);row('Desarrollo',c.desarrollo);row('Perfil',c.perfil_nariz);row('Complejidad',c.complejidad_nariz);if(c.aromas_nariz?.length)row('Aromas',c.aromas_nariz);y+=4
-  sec('Boca');row('Dulzor',c.dulzor);row('Volumen',c.volumen);row('Acidez',c.acidez);row('Alcohol',c.alcohol);row('Tanino',c.tanino);row('Intensidad de sabor',c.intensidad_sabor);row('Perfil',c.perfil_boca);row('Complejidad',c.complejidad_boca);row('Persistencia',c.persistencia);row('Final',c.final);if(c.aromas_boca?.length)row('Aromas en boca',c.aromas_boca);y+=4
-  if(c.cata_com){if(y>240){doc.addPage();y=20};sec('Cata Comercial');doc.setFontSize(10);const lines=doc.splitTextToSize(c.cata_com,182);doc.text(lines,14,y);y+=lines.length*6+4}
-  doc.setFontSize(7);doc.setTextColor(180,160,140);doc.text('Generado con Cata App  ·  '+fmt(Date.now()),14,290);doc.text('cata-ten.vercel.app',196,290,'right')
-  doc.save((c.etiqueta||c.bodega||'cata').replace(/[\s/]+/g,'-')+'.pdf')
-  toast('PDF descargado ✓')
+/* ══ ROUTING ══ */
+function go(v,id){if(v==='nueva'){S.f={pN:[],pB:[],aN:[],aB:[]};S.step=0}if(v==='ver'&&id)S.id=id;if(v==='ref'&&!id)S.refView='main';S.view=v;render()}
+
+function render(){
+  // Bottom nav (mobile)
+  ['home','nueva','ref','profile'].forEach(v=>{const e=document.getElementById('ni-'+v);if(e)e.classList.toggle('active',S.view===v)})
+  // Sidebar (desktop)
+  const sbMap={home:'sbi-home',nueva:'sbi-nueva',ref:'sbi-ref',stats:'sbi-stats',profile:'sbi-profile'}
+  Object.entries(sbMap).forEach(([v,id])=>{const e=document.getElementById(id);if(e)e.classList.toggle('active',S.view===v)})
+  // Update sidebar user
+  const su=document.getElementById('sb-user-label')
+  if(su)su.textContent=S.user?.user_metadata?.name||S.user?.email?.split('@')[0]||''
+  // Show view
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'))
+  const vid={'ver':'v-ver','stats':'v-stats'}[S.view]||('v-'+S.view)
+  const el=document.getElementById(vid)
+  if(el)el.classList.add('active')
+  ;({home:renderHome,nueva:renderNueva,ver:renderVer,ref:renderRef,profile:renderProfile,stats:renderStats})[S.view]?.()
 }
 
-/* EXCEL */
-function exportExcel(){
-  if(!S.catas.length){toast('No hay catas para exportar');return}
-  const data=S.catas.map(c=>({'Bodega':c.bodega||'','Etiqueta':c.etiqueta||'','Varietal':c.varietal||'','Añada':c.anada||'','Origen':c.origen||'','Precio':c.precio||'','Apariencia':c.apariencia||'','Intensidad Visual':c.intensidad_vista||'','Color Base':c.color_base||'','Matiz':c.color_shade||'','Reflejo':c.reflejo?'Sí':'','Limpidez':c.limpidez||'','Intensidad Aromática':c.intensidad_nariz||'','Desarrollo':c.desarrollo||'','Perfil Nariz':(c.perfil_nariz||[]).join(', '),'Complejidad Nariz':c.complejidad_nariz||'','Aromas Nariz':(c.aromas_nariz||[]).join(', '),'Dulzor':c.dulzor||'','Volumen':c.volumen||'','Acidez':c.acidez||'','Alcohol':c.alcohol||'','Tanino':c.tanino||'','Intensidad Sabor':c.intensidad_sabor||'','Perfil Boca':(c.perfil_boca||[]).join(', '),'Complejidad Boca':c.complejidad_boca||'','Aromas Boca':(c.aromas_boca||[]).join(', '),'Persistencia':c.persistencia||'','Final':c.final||'','Puntaje':c.score||'','Calificación':c.score?sL(c.score):''  ,'Cata Comercial':c.cata_com||'','Fecha':fmt(c.created_at)}))
-  const ws=XLSX.utils.json_to_sheet(data)
-  ws['!cols']=[8,10,10,7,10,7,10,12,10,10,7,8,14,12,20,12,30,8,8,8,8,10,12,20,12,30,10,7,8,16,40,12].map(w=>({wch:w}))
-  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Mis Catas')
-  XLSX.writeFile(wb,'mis-catas.xlsx');toast('Excel descargado ✓')
+/* ══ HOME ══ */
+function renderHome(){
+  const n=S.user?.user_metadata?.name||S.user?.email?.split('@')[0]||''
+  document.getElementById('hdr').innerHTML=`<div class="hrow"><div><div class="htitle">Mis Catas</div></div><div class="hacts"><div class="ibtn home-fab-desktop" onclick="go('nueva')" style="width:auto;padding:8px 16px;border-radius:10px;font-size:13px;font-weight:500;color:var(--wine)">+ Nueva cata</div></div></div>`
+  const q=S.search.toLowerCase()
+  const fl=q?S.catas.filter(c=>(c.etiqueta||'').toLowerCase().includes(q)||(c.bodega||'').toLowerCase().includes(q)||(c.varietal||'').toLowerCase().includes(q)||(c.origen||'').toLowerCase().includes(q)||(c.aromas_nariz||[]).some(a=>a.toLowerCase().includes(q))||(c.aromas_boca||[]).some(a=>a.toLowerCase().includes(q))||(c.color_base||'').toLowerCase().includes(q)||(c.cata_com||'').toLowerCase().includes(q)):S.catas
+  document.getElementById('v-home').innerHTML=`
+    <div class="home-hi"><div class="home-g">Hola,<br><strong>${n}</strong></div><div class="home-s">Tu diario de catas · ${S.catas.length} vino${S.catas.length!==1?'s':''}</div></div>
+    <div class="stats"><div class="stat" onclick="go('stats')"><div class="stat-n">${S.catas.length}</div><div class="stat-l">Catas</div></div><div class="stat" onclick="go('stats')"><div class="stat-n">${avg()}</div><div class="stat-l">Promedio</div></div></div>
+    <div class="stats-link" onclick="go('stats')">Ver estadísticas completas →</div>
+    <div class="swi"><input class="search" placeholder="Buscar por vino, aroma, origen, color..." value="${S.search}" oninput="S.search=this.value;renderHome()"></div>
+    ${S.search?`<div class="search-tip">Buscando en nombres, aromas, origen y colores</div>`:''}
+    <div class="clist">${fl.length===0?`<div class="empty"><div class="empty-ic">🍷</div><div class="empty-t">${S.catas.length===0?'Sin catas aún':'Sin resultados'}</div><div class="empty-s">${S.catas.length===0?'Tocá + para tu primera cata':'Probá con otro término — podés buscar por aroma'}</div></div>`:fl.map(c=>`<div class="cc" onclick="go('ver','${c.id}')"><div class="cc-dot" style="background:${c.color_hex||'#B83050'}"></div><div class="cc-info"><div class="cc-name">${c.etiqueta||c.bodega||'Sin nombre'}</div><div class="cc-meta">${[c.varietal,c.anada,c.origen].filter(Boolean).join(' · ')||fmt(c.created_at)}</div></div>${c.score?`<div class="cc-score">${c.score}</div>`:''}</div>`).join('')}</div>
+    <div class="fab" onclick="go('nueva')">+</div>`
 }
 
-/* ROUTING */
-function go(v,id){if(v==='nueva'){S.f={pN:[],pB:[],aN:[],aB:[]};S.step=0}if(v==='ver'&&id)S.id=id;if(v==='ref')S.refView='main';S.view=v;render()}
-function render(){['home','nueva','ref','profile'].forEach(v=>{const e=document.getElementById('ni-'+v);if(e)e.classList.toggle('active',S.view===v)});document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const vid=S.view==='ver'?'v-ver':'v-'+S.view;const e=document.getElementById(vid);if(e)e.classList.add('active');({home:renderHome,nueva:renderNueva,ver:renderVer,ref:renderRef,profile:renderProfile})[S.view]?.()}
-
-/* HOME */
-function renderHome(){const n=S.user?.user_metadata?.name||S.user?.email?.split('@')[0]||'';document.getElementById('hdr').innerHTML=`<div class="hrow"><div><div class="htitle">Cata</div></div></div>`;const q=S.search.toLowerCase(),fl=q?S.catas.filter(c=>(c.etiqueta||'').toLowerCase().includes(q)||(c.bodega||'').toLowerCase().includes(q)||(c.varietal||'').toLowerCase().includes(q)):S.catas;document.getElementById('v-home').innerHTML=`<div class="home-hi"><div class="home-g">Hola,<br><strong>${n}</strong></div><div class="home-s">Tu diario de catas</div></div><div class="stats"><div class="stat"><div class="stat-n">${S.catas.length}</div><div class="stat-l">Catas</div></div><div class="stat"><div class="stat-n">${avg()}</div><div class="stat-l">Promedio</div></div></div><div class="swi"><input class="search" placeholder="Buscar vino, bodega, varietal..." value="${S.search}" oninput="S.search=this.value;renderHome()"></div><div class="clist">${fl.length===0?`<div class="empty"><div class="empty-ic">🍷</div><div class="empty-t">${S.catas.length===0?'Sin catas aún':'Sin resultados'}</div><div class="empty-s">${S.catas.length===0?'Tocá + para tu primera cata':'Probá otro término'}</div></div>`:fl.map(c=>`<div class="cc" onclick="go('ver','${c.id}')"><div class="cc-dot" style="background:${c.color_hex||'#B83050'}"></div><div class="cc-info"><div class="cc-name">${c.etiqueta||c.bodega||'Sin nombre'}</div><div class="cc-meta">${[c.varietal,c.anada,c.origen].filter(Boolean).join(' · ')||fmt(c.created_at)}</div></div>${c.score?`<div class="cc-score">${c.score}</div>`:''}</div>`).join('')}</div><div class="fab" onclick="go('nueva')">+</div>`}
-
-/* NUEVA CATA */
+/* ══ NUEVA CATA (ficha exacta) ══ */
 function renderNueva(){const s=S.step,last=s===STEPS.length-1;document.getElementById('hdr').innerHTML=`<div class="hrow"><div class="back" onclick="${s===0?"go('home')":"prevStep()"}">${s===0?'✕':'‹'}</div><div><div class="htitle">${STEPS[s].t}</div><div class="hsub">${STEPS[s].s}</div></div></div><div class="prog">${STEPS.map((_,i)=>`<div class="ps ${i<s?'done':i===s?'cur':''}"></div>`).join('')}</div>`;document.getElementById('v-nueva').innerHTML=`<div class="fbody">${buildStep(s)}</div><div class="fnav">${s>0?'<button class="btn btn-g" onclick="prevStep()">Atrás</button>':''}<button class="btn ${last?'btn-s':'btn-p'}" onclick="${last?'saveCata()':'nextStep()'}">${last?'✓ Guardar':'Continuar →'}</button></div>`;bindChips()}
-
-function buildStep(s){
-  const f=S.f
-  if(s===0)return`<div class="step-t">¿Qué catamos?</div><div class="step-s">Datos del vino</div>
-    <div class="row2"><div class="field"><label class="lbl">Bodega</label><input class="inp" placeholder="Catena Zapata" value="${f.bodega||''}" oninput="S.f.bodega=this.value"></div><div class="field"><label class="lbl">Etiqueta</label><input class="inp" placeholder="Adrianna" value="${f.etiqueta||''}" oninput="S.f.etiqueta=this.value"></div></div>
-    <div class="row2"><div class="field"><label class="lbl">Varietal</label><input class="inp" placeholder="Malbec" value="${f.varietal||''}" oninput="S.f.varietal=this.value"></div><div class="field"><label class="lbl">Añada</label><input class="inp" placeholder="2022" value="${f.añada||''}" oninput="S.f.añada=this.value" inputmode="numeric"></div></div>
-    <div class="row2"><div class="field"><label class="lbl">Origen</label><input class="inp" placeholder="Mendoza" value="${f.origen||''}" oninput="S.f.origen=this.value"></div><div class="field"><label class="lbl">Precio ($)</label><input class="inp" placeholder="5000" value="${f.precio||''}" oninput="S.f.precio=this.value" inputmode="decimal"></div></div>
-    <div class="field"><label class="lbl">Foto de la etiqueta <span style="color:var(--dim2);font-weight:300">(opcional)</span></label>
-      <label class="foto-upload-btn" id="foto-upload-btn" for="foto-input">📷 ${f.fotoPreview?'Cambiar foto':'Agregar foto de la etiqueta'}</label>
-      <input type="file" id="foto-input" accept="image/*" capture="environment" style="display:none" onchange="handleFotoChange(this)">
-      <div id="foto-preview">${f.fotoPreview?`<img src="${f.fotoPreview}" class="foto-preview-img"><div class="foto-ok">✓ Foto lista para guardar</div>`:''}</div>
-    </div>`
-
+function buildStep(s){const f=S.f;
+  if(s===0)return`<div class="step-t">¿Qué catamos?</div><div class="step-s">Datos del vino</div><div class="row2"><div class="field"><label class="lbl">Bodega</label><input class="inp" placeholder="Catena Zapata" value="${f.bodega||''}" oninput="S.f.bodega=this.value"></div><div class="field"><label class="lbl">Etiqueta</label><input class="inp" placeholder="Adrianna" value="${f.etiqueta||''}" oninput="S.f.etiqueta=this.value"></div></div><div class="row2"><div class="field"><label class="lbl">Varietal</label><input class="inp" placeholder="Malbec" value="${f.varietal||''}" oninput="S.f.varietal=this.value"></div><div class="field"><label class="lbl">Añada</label><input class="inp" placeholder="2022" value="${f.añada||''}" oninput="S.f.añada=this.value" inputmode="numeric"></div></div><div class="row2"><div class="field"><label class="lbl">Origen</label><input class="inp" placeholder="Mendoza" value="${f.origen||''}" oninput="S.f.origen=this.value"></div><div class="field"><label class="lbl">Precio ($)</label><input class="inp" placeholder="5000" value="${f.precio||''}" oninput="S.f.precio=this.value" inputmode="decimal"></div></div><div class="field"><label class="lbl">Foto de la etiqueta <span style="color:var(--dim2);font-weight:300">(opcional)</span></label><label class="foto-upload-btn" id="foto-upload-btn" for="foto-input">📷 ${f.fotoPreview?'Cambiar foto':'Agregar foto de la etiqueta'}</label><input type="file" id="foto-input" accept="image/*" capture="environment" style="display:none" onchange="handleFotoChange(this)"><div id="foto-preview">${f.fotoPreview?`<img src="${f.fotoPreview}" class="foto-preview-img"><div class="foto-ok">✓ Foto lista para guardar</div>`:''}</div></div>`
   if(s===1){const sb=f.cBase;return`<div class="step-t">Vista</div><div class="step-s">Examen visual</div><div class="field"><label class="lbl">Apariencia</label><div class="chips">${c1('apariencia',['Brillante','Opaco','Turbio'])}</div></div><div class="field"><label class="lbl">Intensidad</label><div class="chips">${c1('intV',['Leve','Media','Alta'])}</div></div><div class="field"><label class="lbl">Color</label><div class="chips">${Object.keys(COLORES).map(b=>`<div class="chip${f.cBase===b?' sel':''}" data-g="cBase" data-v="${b}">${b}</div>`).join('')}</div>${sb?`<div class="color-row">${COLORES[sb].map(sh=>`<div class="color-opt" onclick="pickSh('${sh.n.replace(/'/g,"\\'")}','${sh.h}')"><div class="color-circle${f.cShade===sh.n?' sel':''}" style="background:${sh.h}"></div><div class="color-lbl">${sh.n}</div></div>`).join('')}</div>${f.cShade?`<div class="color-hint">✓ ${sb} ${f.cShade}</div>`:''}`:''}  </div><div class="field"><label class="lbl">Reflejo</label><div class="chips"><div class="chip${f.reflejo?' sel':''}" onclick="S.f.reflejo=!S.f.reflejo;renderNueva()">Presenta reflejo</div></div></div>`}
   if(s===2)return`<div class="step-t">Nariz</div><div class="step-s">Perfil olfativo</div><div class="field"><label class="lbl">Limpidez</label><div class="chips">${c1('limpidez',['Limpio','Defectuoso'])}</div></div><div class="field"><label class="lbl">Intensidad</label><div class="chips">${c1('intN',['Neutra','Baja','Media','Alta'])}</div></div><div class="field"><label class="lbl">Desarrollo</label><div class="chips">${c1('desarrollo',['Joven','En desarrollo','Evolucionado'])}</div></div><div class="field"><label class="lbl">Perfil</label><div class="chips">${cM('pN',['Frutado','Herbáceo','Floral','Especiado','Madera','Herbal','Otros'])}</div>${expander('pN','aN')}</div><div class="field"><label class="lbl">Complejidad</label><div class="chips">${c1('compN',['Simple','Media','Alta'])}</div></div>`
   if(s===3)return`<div class="step-t">Boca</div><div class="step-s">Análisis gustativo</div><div class="field"><label class="lbl">Dulzor</label><div class="chips">${c1('dulzor',['Seco','Semi seco','Medio','Dulce'])}</div></div><div class="field"><label class="lbl">Volumen / Cuerpo</label><div class="chips">${c1('volumen',['Bajo','Medio','Alto'])}</div></div><div class="field"><label class="lbl">Acidez</label><div class="chips">${c1('acidez',['Baja','Media','Alta','Punzante'])}</div></div><div class="field"><label class="lbl">Alcohol</label><div class="chips">${c1('alcohol',['Bajo','Medio','Alto','Cálido'])}</div></div><div class="field"><label class="lbl">Tanino</label><div class="chips">${c1('tanino',['Bajo','Medio','Alto','Muy astringente'])}</div></div><div class="field"><label class="lbl">Intensidad de sabor</label><div class="chips">${c1('intS',['Baja','Media','Alta'])}</div></div><div class="field"><label class="lbl">Perfil en boca</label><div class="chips">${cM('pB',['Frutado','Herbáceo','Floral','Especiado','Madera','Herbal','Otros'])}</div>${expander('pB','aB')}</div><div class="field"><label class="lbl">Complejidad</label><div class="chips">${c1('compB',['Simple','Media','Alta'])}</div></div><div class="row2"><div class="field"><label class="lbl">Persistencia</label><div class="chips" style="flex-direction:column;gap:6px">${c1('persistencia',['Corta','Media','Larga'])}</div></div><div class="field"><label class="lbl">Final</label><div class="chips" style="flex-direction:column;gap:6px">${c1('final',['Corto','Medio','Largo'])}</div></div></div>`
   if(s===4)return`<div class="step-t">Cata comercial</div><div class="step-s">Puntuación y descripción</div><div class="field"><label class="lbl">Puntaje (escala 100)</label><div class="score-wrap"><div class="score-n" id="sn">${f.score||88}</div><div class="score-l" id="sl">${sL(f.score||88)}</div></div><input type="range" min="50" max="100" value="${f.score||88}" oninput="upScore(this.value)"></div><div class="field"><label class="lbl">Descripción / Cata comercial</label><textarea class="inp" placeholder="Carácter del vino, aromas dominantes, maridaje sugerido..." oninput="S.f.cataCom=this.value">${f.cataCom||''}</textarea></div>`
-  return''
-}
+  return''}
 function c1(g,vs){return vs.map(v=>`<div class="chip${S.f[g]===v?' sel':''}" data-g="${g}" data-v="${v}">${v}</div>`).join('')}
 function cM(g,vs){return vs.map(v=>`<div class="chip${(S.f[g]||[]).includes(v)?' sel':''}" data-g="${g}" data-m="1" data-v="${v}">${v}</div>`).join('')}
 function expander(pk,ak){const sel=S.f[pk]||[];if(!sel.length)return'';return sel.map(p=>{const cats=PA[p];if(!cats)return'';return`<div class="expand-block"><div class="expand-header">⤷ ${p}</div>${cats.map(cat=>`<div class="expand-cat"><div class="expand-cat-t" style="color:${cat.clr}">${cat.c}</div><div class="chips">${cat.i.map(a=>`<div class="chip${(S.f[ak]||[]).includes(a)?' sel':''}" data-g="${ak}" data-m="1" data-v="${a}">${a}</div>`).join('')}</div></div>`).join('')}</div>`}).join('')}
@@ -360,66 +533,167 @@ function upScore(v){S.f.score=+v;const n=document.getElementById('sn'),l=documen
 function nextStep(){if(S.step<STEPS.length-1){S.step++;renderNueva();document.getElementById('main').scrollTop=0}}
 function prevStep(){if(S.step>0){S.step--;renderNueva();document.getElementById('main').scrollTop=0}}
 
-/* VER CATA */
+/* ══ VER CATA ══ */
 function renderVer(){
   const c=S.catas.find(x=>x.id===S.id);if(!c){go('home');return}
+  const historial=S.catas.filter(x=>x.id!==c.id&&x.varietal&&c.varietal&&x.varietal.toLowerCase()===c.varietal.toLowerCase()&&(!c.bodega||!x.bodega||(x.bodega||'').toLowerCase()===(c.bodega||'').toLowerCase())).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,3)
   document.getElementById('hdr').innerHTML=`<div class="hrow"><div class="back" onclick="go('home')">‹</div><div><div class="htitle">Ficha de cata</div><div class="hsub">${fmt(c.created_at)}</div></div><div class="hacts"><div class="ibtn" onclick="exportPDF('${c.id}')" title="PDF">⬇</div><div class="ibtn" onclick="shareCata('${c.id}')" title="Compartir">↗</div></div></div>`
   const dr=(l,v)=>v?`<div class="drow"><span class="dl">${l}</span><span class="dv">${Array.isArray(v)?v.join(', '):v}</span></div>`:'',cs=[c.color_base,c.color_shade].filter(Boolean).join(' ')
   document.getElementById('v-ver').innerHTML=`<div class="dwrap">
     ${c.foto_url?`<div class="foto-detail"><img src="${c.foto_url}" alt="Etiqueta"><div class="foto-detail-label">${c.etiqueta||c.bodega||''}</div></div>`:''}
     <div class="dhero"><div class="hdot" style="background:${c.color_hex||'#B83050'}"></div><div><div class="hname">${c.etiqueta||c.bodega||'Sin nombre'}</div><div class="hmeta">${[c.varietal,c.anada,c.origen].filter(Boolean).join(' · ')}</div>${c.score?`<div class="hscore-big">${c.score} <small>${sL(c.score)}</small></div>`:''}</div></div>
-    ${radar(c)}
+    ${radar5(c)}
     <div class="dsec"><div class="dsec-t">¿Qué catamos?</div>${dr('Bodega',c.bodega)}${dr('Etiqueta',c.etiqueta)}${dr('Varietal',c.varietal)}${dr('Añada',c.anada)}${dr('Origen',c.origen)}${c.precio?dr('Precio','$'+c.precio):''}</div>
     <div class="dsec"><div class="dsec-t">Vista</div>${dr('Apariencia',c.apariencia)}${dr('Intensidad',c.intensidad_vista)}${cs?`<div class="drow"><span class="dl">Color</span><span class="dv" style="display:flex;align-items:center;gap:8px"><span style="width:16px;height:16px;border-radius:50%;background:${c.color_hex||'#888'};display:inline-block;border:1px solid rgba(0,0,0,.1)"></span>${cs}</span></div>`:''}${c.reflejo?dr('Reflejo','Sí'):''}</div>
-    <div class="dsec"><div class="dsec-t">Nariz</div>${dr('Limpidez',c.limpidez)}${dr('Intensidad',c.intensidad_nariz)}${dr('Desarrollo',c.desarrollo)}${dr('Perfil',c.perfil_nariz)}${dr('Complejidad',c.complejidad_nariz)}${c.aromas_nariz?.length?`<div style="padding:8px 0"><div class="dl" style="margin-bottom:8px">Aromas</div><div class="atags">${c.aromas_nariz.map(a=>`<span class="atag">${a}</span>`).join('')}</div></div>`:''}</div>
-    <div class="dsec"><div class="dsec-t">Boca</div>${dr('Dulzor',c.dulzor)}${dr('Volumen',c.volumen)}${dr('Acidez',c.acidez)}${dr('Alcohol',c.alcohol)}${dr('Tanino',c.tanino)}${dr('Intensidad',c.intensidad_sabor)}${dr('Perfil',c.perfil_boca)}${dr('Complejidad',c.complejidad_boca)}${dr('Persistencia',c.persistencia)}${dr('Final',c.final)}${c.aromas_boca?.length?`<div style="padding:8px 0"><div class="dl" style="margin-bottom:8px">Aromas en boca</div><div class="atags">${c.aromas_boca.map(a=>`<span class="atag">${a}</span>`).join('')}</div></div>`:''}</div>
+    <div class="dsec"><div class="dsec-t">Nariz</div>${dr('Limpidez',c.limpidez)}${dr('Intensidad',c.intensidad_nariz)}${dr('Desarrollo',c.desarrollo)}${dr('Perfil',c.perfil_nariz)}${dr('Complejidad',c.complejidad_nariz)}${c.aromas_nariz?.length?`<div style="padding:8px 0"><div class="dl" style="margin-bottom:8px">Aromas</div><div class="atags">${c.aromas_nariz.map(a=>`<span class="atag" onclick="S.search='${a}';go('home')">${a}</span>`).join('')}</div></div>`:''}</div>
+    <div class="dsec"><div class="dsec-t">Boca</div>${dr('Dulzor',c.dulzor)}${dr('Volumen',c.volumen)}${dr('Acidez',c.acidez)}${dr('Alcohol',c.alcohol)}${dr('Tanino',c.tanino)}${dr('Intensidad',c.intensidad_sabor)}${dr('Perfil',c.perfil_boca)}${dr('Complejidad',c.complejidad_boca)}${dr('Persistencia',c.persistencia)}${dr('Final',c.final)}${c.aromas_boca?.length?`<div style="padding:8px 0"><div class="dl" style="margin-bottom:8px">Aromas en boca</div><div class="atags">${c.aromas_boca.map(a=>`<span class="atag" onclick="S.search='${a}';go('home')">${a}</span>`).join('')}</div></div>`:''}</div>
     ${c.cata_com?`<div class="dsec"><div class="dsec-t">Cata comercial</div><div class="ccom">${c.cata_com}</div></div>`:''}
-    <div class="dacts">
-      <button class="btn-action btn-pdf" onclick="exportPDF('${c.id}')">⬇ PDF</button>
-      <button class="btn-action btn-share" onclick="shareCata('${c.id}')">↗ Compartir</button>
-      <button class="btn-action btn-edit" onclick="editCata('${c.id}')">✎ Editar</button>
-      <button class="btn-action btn-del" onclick="deleteCata('${c.id}')">🗑</button>
-    </div>
+    ${historial.length?`<div class="dsec"><div class="dsec-t">Historial de este vino</div>${historial.map(h=>`<div class="historial-card" onclick="go('ver','${h.id}')"><div class="historial-dot" style="background:${h.color_hex||'#B83050'}"></div><div style="flex:1"><div style="font-size:14px;color:var(--text);font-family:'Fraunces',serif;font-style:italic">${h.etiqueta||h.bodega}</div><div style="font-size:12px;color:var(--dim)">${fmt(h.created_at)}${h.anada?' · '+h.anada:''}</div></div>${h.score?`<div class="historial-score">${h.score}</div>`:''}</div>`).join('')}</div>`:''}
+    <div class="dacts"><button class="btn-action btn-pdf" onclick="exportPDF('${c.id}')">⬇ PDF</button><button class="btn-action btn-share" onclick="shareCata('${c.id}')">↗ Compartir</button><button class="btn-action btn-edit" onclick="editCata('${c.id}')">✎ Editar</button><button class="btn-action btn-del" onclick="deleteCata('${c.id}')">🗑</button></div>
   </div>`
 }
-function radar(c){const ax=[{l:'Dulzor',v:mV(c.dulzor,['Seco','Semi seco','Medio','Dulce'])},{l:'Acidez',v:mV(c.acidez,['Baja','Media','Alta','Punzante'])},{l:'Tanino',v:mV(c.tanino,['Bajo','Medio','Alto','Muy astringente'])},{l:'Alcohol',v:mV(c.alcohol,['Bajo','Medio','Alto','Cálido'])},{l:'Cuerpo',v:mV(c.volumen,['Bajo','Medio','Alto'])},{l:'Complejidad',v:mV(c.complejidad_boca,['Simple','Media','Alta'])}];if(ax.every(a=>a.v===0))return'';const cx=130,cy=120,R=80,n=ax.length,ag=i=>(Math.PI*2*i/n)-Math.PI/2,px=(i,r)=>cx+r*Math.cos(ag(i)),py=(i,r)=>cy+r*Math.sin(ag(i));let g='',lb='',dp=[];for(let r=1;r<=3;r++){let p=[];for(let i=0;i<n;i++)p.push(px(i,R*r/3)+','+py(i,R*r/3));g+=`<polygon points="${p.join(' ')}" fill="none" stroke="rgba(0,0,0,.07)"/>`}for(let i=0;i<n;i++){g+=`<line x1="${cx}" y1="${cy}" x2="${px(i,R)}" y2="${py(i,R)}" stroke="rgba(0,0,0,.05)"/>`;lb+=`<text x="${px(i,R+22)}" y="${py(i,R+22)}" text-anchor="middle" dominant-baseline="middle">${ax[i].l}</text>`;dp.push(px(i,R*ax[i].v/3)+','+py(i,R*ax[i].v/3))}return`<div class="radar-wrap"><svg width="260" height="260" viewBox="0 0 260 240">${g}${lb}<polygon points="${dp.join(' ')}" fill="rgba(114,47,55,.1)" stroke="var(--wine)" stroke-width="2"/>${ax.map((_,i)=>`<circle cx="${px(i,R*ax[i].v/3)}" cy="${py(i,R*ax[i].v/3)}" r="4" fill="var(--wine)"/>`).join('')}</svg></div>`}
+function radar5(c){
+  const ax=[{l:'Dulzor',v:mV(c.dulzor,['Seco','Semi seco','Medio','Dulce'])},{l:'Acidez',v:mV(c.acidez,['Baja','Media','Alta','Punzante'])},{l:'Tanino',v:mV(c.tanino,['Bajo','Medio','Alto','Muy astringente'])},{l:'Alcohol',v:mV(c.alcohol,['Bajo','Medio','Alto','Cálido'])},{l:'Cuerpo',v:mV(c.volumen,['Bajo','Medio','Alto'])},{l:'Complejidad',v:mV(c.complejidad_boca,['Simple','Media','Alta'])}]
+  if(ax.every(a=>a.v===0))return''
+  const cx=130,cy=120,R=80,n=ax.length,ag=i=>(Math.PI*2*i/n)-Math.PI/2,px=(i,r)=>cx+r*Math.cos(ag(i)),py=(i,r)=>cy+r*Math.sin(ag(i))
+  let g='',lb='',dp=[]
+  for(let r=1;r<=3;r++){let p=[];for(let i=0;i<n;i++)p.push(px(i,R*r/3)+','+py(i,R*r/3));g+=`<polygon points="${p.join(' ')}" fill="none" stroke="rgba(0,0,0,.07)"/>`}
+  for(let i=0;i<n;i++){g+=`<line x1="${cx}" y1="${cy}" x2="${px(i,R)}" y2="${py(i,R)}" stroke="rgba(0,0,0,.05)"/>`;lb+=`<text x="${px(i,R+22)}" y="${py(i,R+22)}" text-anchor="middle" dominant-baseline="middle">${ax[i].l}</text>`;dp.push(px(i,R*ax[i].v/3)+','+py(i,R*ax[i].v/3))}
+  return`<div class="radar-wrap"><svg width="260" height="260" viewBox="0 0 260 240">${g}${lb}<polygon points="${dp.join(' ')}" fill="rgba(114,47,55,.1)" stroke="var(--wine)" stroke-width="2"/>${ax.map((_,i)=>`<circle cx="${px(i,R*ax[i].v/3)}" cy="${py(i,R*ax[i].v/3)}" r="4" fill="var(--wine)"/>`).join('')}</svg></div>`
+}
 function mV(v,sc){if(!v)return 0;const i=sc.indexOf(v);return i<0?0:i+1}
 function editCata(id){const c=S.catas.find(x=>x.id===id);if(!c)return;S.f={_id:c.id,bodega:c.bodega,etiqueta:c.etiqueta,varietal:c.varietal,añada:c.anada,origen:c.origen,precio:c.precio,foto_url:c.foto_url,fotoPreview:c.foto_url||null,apariencia:c.apariencia,intV:c.intensidad_vista,cBase:c.color_base,cShade:c.color_shade,cHex:c.color_hex,reflejo:c.reflejo,limpidez:c.limpidez,intN:c.intensidad_nariz,desarrollo:c.desarrollo,pN:c.perfil_nariz||[],compN:c.complejidad_nariz,aN:c.aromas_nariz||[],dulzor:c.dulzor,volumen:c.volumen,acidez:c.acidez,alcohol:c.alcohol,tanino:c.tanino,intS:c.intensidad_sabor,pB:c.perfil_boca||[],compB:c.complejidad_boca,aB:c.aromas_boca||[],persistencia:c.persistencia,final:c.final,score:c.score,cataCom:c.cata_com};S.step=0;S.view='nueva';render()}
 
-/* BIBLIOTECA */
-function renderRef(){
-  document.getElementById('hdr').innerHTML=`<div class="hrow">${S.refView!=='main'?`<div class="back" onclick="S.refView='main';renderRef()">‹</div>`:''}<div><div class="htitle">Aprender</div><div class="hsub">${{main:'Referencia y estudio',flash:'Flashcards',aromas:'Aromas',colors:'Colores',scores:'Puntuación'}[S.refView]}</div></div></div>`
-  if(S.refView==='main'){document.getElementById('v-ref').innerHTML=`<div class="rwrap"><div class="aroma-grid"><div class="aroma-card" onclick="S.refView='flash';S.fcIdx=0;S.fcFlipped=false;flashDeck=[];renderRef()"><div class="aroma-card-bar" style="background:var(--wine)"></div><div class="aroma-card-name">🃏 Flashcards</div><div class="aroma-card-count">Estudiá aromas y colores</div></div><div class="aroma-card" onclick="S.refView='aromas';renderRef()"><div class="aroma-card-bar" style="background:var(--gold)"></div><div class="aroma-card-name">👃 Aromas</div><div class="aroma-card-count">${Object.values(PA).flat().reduce((a,c)=>a+c.i.length,0)} aromas en 7 perfiles</div></div><div class="aroma-card" onclick="S.refView='colors';renderRef()"><div class="aroma-card-bar" style="background:#B83050"></div><div class="aroma-card-name">🎨 Colores</div><div class="aroma-card-count">${Object.values(COLORES).flat().length} tonos</div></div><div class="aroma-card" onclick="S.refView='scores';renderRef()"><div class="aroma-card-bar" style="background:var(--dim)"></div><div class="aroma-card-name">🏆 Puntuación</div><div class="aroma-card-count">Escala de 100 puntos</div></div></div></div>`}
-  else if(S.refView==='flash')renderFlash()
-  else if(S.refView==='aromas'){document.getElementById('v-ref').innerHTML=`<div class="rwrap">${Object.entries(PA).map(([p,cats])=>`<div class="rsec"><div class="rtitle">${p}</div><div class="rrule"></div>${cats.map(cat=>`<div class="aroma-detail"><div class="aroma-detail-title">${cat.c}</div><div class="chips">${cat.i.map(a=>`<div class="chip" style="pointer-events:none">${a}</div>`).join('')}</div></div>`).join('')}</div>`).join('')}</div>`}
-  else if(S.refView==='colors'){document.getElementById('v-ref').innerHTML=`<div class="rwrap">${Object.entries(COLORES).map(([b,sh])=>`<div class="rsec"><div class="rtitle">${b}</div><div class="rrule"></div><div style="display:flex;gap:14px;flex-wrap:wrap">${sh.map(s=>`<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:50%;background:${s.h};border:2px solid rgba(0,0,0,.08)"></div><div style="font-size:11px;color:var(--dim);text-align:center">${s.n}</div></div>`).join('')}</div></div>`).join('')}</div>`}
-  else if(S.refView==='scores'){document.getElementById('v-ref').innerHTML=`<div class="rwrap"><div class="rsec"><div class="rtitle">Escala de puntuación</div><div class="rrule"></div>${[[97,100,'Perfección'],[93,96,'Excepcional'],[90,92,'Sobresaliente'],[87,89,'Muy Bueno'],[83,86,'Bueno +'],[80,82,'Bueno'],[75,79,'Aceptable'],[50,74,'Por debajo del promedio']].map(([a,b,l])=>`<div class="drow"><span class="dl">${a}–${b}</span><span class="dv">${l}</span></div>`).join('')}</div></div>`}
+/* ══ ESTADÍSTICAS ══ */
+function renderStats(){
+  document.getElementById('hdr').innerHTML=`<div class="hrow"><div class="back" onclick="go('home')">‹</div><div><div class="htitle">Estadísticas</div><div class="hsub">Tu perfil de catador</div></div></div>`
+  const catas=S.catas,total=catas.length
+  if(!total){document.getElementById('v-stats').innerHTML='<div style="padding:60px 20px;text-align:center"><div style="font-size:56px;opacity:.3">📊</div><div style="font-family:Fraunces,serif;font-style:italic;font-size:22px;color:var(--dim);margin-top:16px">Sin datos aún</div></div>';return}
+  const withScore=catas.filter(c=>c.score),avgS=withScore.length?Math.round(withScore.reduce((a,c)=>a+(+c.score),0)/withScore.length):0
+  const best=withScore.length?withScore.reduce((a,c)=>(+c.score)>(+a.score)?c:a,withScore[0]):null
+  const varMap={},origMap={},aromaMap={},colorMap={}
+  catas.forEach(c=>{if(c.varietal)varMap[c.varietal]=(varMap[c.varietal]||0)+1;if(c.origen)origMap[c.origen]=(origMap[c.origen]||0)+1;if(c.color_base)colorMap[c.color_base]=(colorMap[c.color_base]||0)+1;[...(c.aromas_nariz||[]),...(c.aromas_boca||[])].forEach(a=>{aromaMap[a]=(aromaMap[a]||0)+1})})
+  const topVar=Object.entries(varMap).sort((a,b)=>b[1]-a[1]).slice(0,5)
+  const topOrig=Object.entries(origMap).sort((a,b)=>b[1]-a[1]).slice(0,5)
+  const topAromas=Object.entries(aromaMap).sort((a,b)=>b[1]-a[1]).slice(0,15)
+  const dB=withScore.filter(c=>(+c.score)<80).length,dM=withScore.filter(c=>(+c.score)>=80&&(+c.score)<90).length,dA=withScore.filter(c=>(+c.score)>=90).length
+  const bw=(v,mx)=>mx?Math.round(v/mx*100):0,mxV=topVar[0]?.[1]||1,mxO=topOrig[0]?.[1]||1
+  document.getElementById('v-stats').innerHTML=`<div class="swrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div class="scard" style="padding:14px;text-align:center"><div class="big-stat-n">${total}</div><div class="big-stat-l">Catas</div></div>
+      <div class="scard" style="padding:14px;text-align:center"><div class="big-stat-n">${avgS||'—'}</div><div class="big-stat-l">Promedio</div></div>
+      <div class="scard" style="padding:14px;text-align:center"><div class="big-stat-n">${best?best.score:'—'}</div><div class="big-stat-l">Mejor</div></div>
+    </div>
+    ${best?`<div class="scard" style="cursor:pointer" onclick="go('ver','${best.id}')"><div class="scard-title">Mejor vino catado</div><div style="display:flex;align-items:center;gap:12px"><div style="width:44px;height:44px;border-radius:50%;background:${best.color_hex||'#B83050'};border:2px solid rgba(0,0,0,.06)"></div><div><div style="font-family:'Fraunces',serif;font-size:16px;font-style:italic">${best.etiqueta||best.bodega||'Sin nombre'}</div><div style="font-size:12px;color:var(--dim)">${[best.varietal,best.anada].filter(Boolean).join(' · ')}</div></div><div style="margin-left:auto;font-family:'Fraunces',serif;font-size:28px;color:var(--wine)">${best.score}</div></div></div>`:''}
+    ${withScore.length?`<div class="scard"><div class="scard-title">Distribución de puntajes</div><div class="score-dist"><div class="score-dist-item"><div class="score-dist-n">${dA}</div><div class="score-dist-l">90–100<br>Excelentes</div></div><div class="score-dist-item"><div class="score-dist-n">${dM}</div><div class="score-dist-l">80–89<br>Buenos</div></div><div class="score-dist-item"><div class="score-dist-n">${dB}</div><div class="score-dist-l">&lt;80<br>Resto</div></div></div></div>`:''}
+    ${topVar.length?`<div class="scard"><div class="scard-title">Varietales más catados</div>${topVar.map(([n,v])=>`<div class="stat-row"><div class="stat-row-label">${n}</div><div class="stat-bar-wrap"><div class="stat-bar" style="width:${bw(v,mxV)}%"></div></div><div class="stat-row-val">${v}</div></div>`).join('')}</div>`:''}
+    ${topOrig.length?`<div class="scard"><div class="scard-title">Orígenes</div>${topOrig.map(([n,v])=>`<div class="stat-row"><div class="stat-row-label">${n}</div><div class="stat-bar-wrap"><div class="stat-bar" style="width:${bw(v,mxO)}%"></div></div><div class="stat-row-val">${v}</div></div>`).join('')}</div>`:''}
+    ${Object.keys(colorMap).length?`<div class="scard"><div class="scard-title">Colores más catados</div><div style="display:flex;gap:12px;flex-wrap:wrap">${Object.entries(colorMap).sort((a,b)=>b[1]-a[1]).map(([b,n])=>`<div style="text-align:center"><div style="width:44px;height:44px;border-radius:50%;background:${COLORES[b]?.[0]?.h||'#888'};border:2px solid rgba(0,0,0,.06);margin:0 auto 4px"></div><div style="font-size:11px;color:var(--dim)">${b}</div><div style="font-size:13px;font-weight:500">${n}</div></div>`).join('')}</div></div>`:''}
+    ${topAromas.length?`<div class="scard"><div class="scard-title">Aromas más detectados</div><div class="aroma-cloud">${topAromas.map(([a,n])=>`<button class="aroma-tag-big" style="background:rgba(114,47,55,${Math.min(.06+n*.04,.18)});color:var(--wine);border:1px solid rgba(114,47,55,${Math.min(.1+n*.04,.3)})" onclick="S.search='${a}';go('home')">${a} <span style="opacity:.6;font-size:11px">${n}</span></button>`).join('')}</div></div>`:''}
+  </div>`
 }
 
-/* FLASHCARDS */
+/* ══ APRENDER / BIBLIOTECA ══ */
+function renderRef(){
+  const rV=S.refView
+  let backBtn=rV!=='main'?`<div class="back" onclick="${rV==='v-detail'?'S.refView=\'varietales\';renderRef()':'S.refView=\'main\';renderRef()'}">‹</div>`:'';
+  const titles={main:'Aprender',flash:'Flashcards',aromas:'Aromas',colors:'Colores',scores:'Puntuación',varietales:'Varietales','v-detail':S.vtIdx>=0?V[S.vtIdx].n:'Varietal'}
+  document.getElementById('hdr').innerHTML=`<div class="hrow">${backBtn}<div><div class="htitle">${titles[rV]||'Aprender'}</div><div class="hsub">Referencia y estudio</div></div></div>`
+  if(rV==='main'){document.getElementById('v-ref').innerHTML=`<div class="rwrap"><div class="aroma-grid">
+    <div class="aroma-card" onclick="S.refView='varietales';S.vtTab='b';renderRef()"><div class="aroma-card-bar" style="background:linear-gradient(90deg,#E8D018,#C88800)"></div><div class="aroma-card-name">🍇 Varietales</div><div class="aroma-card-count">${V.length} uvas — blancos y tintos</div></div>
+    <div class="aroma-card" onclick="S.refView='flash';S.fcIdx=0;S.fcFlipped=false;flashDeck=[];renderRef()"><div class="aroma-card-bar" style="background:var(--wine)"></div><div class="aroma-card-name">🃏 Flashcards</div><div class="aroma-card-count">Estudiá aromas y colores</div></div>
+    <div class="aroma-card" onclick="S.refView='aromas';renderRef()"><div class="aroma-card-bar" style="background:var(--gold)"></div><div class="aroma-card-name">👃 Aromas</div><div class="aroma-card-count">${Object.values(PA).flat().reduce((a,c)=>a+c.i.length,0)} aromas · 7 perfiles</div></div>
+    <div class="aroma-card" onclick="S.refView='colors';renderRef()"><div class="aroma-card-bar" style="background:#B83050"></div><div class="aroma-card-name">🎨 Colores</div><div class="aroma-card-count">${Object.values(COLORES).flat().length} tonos del vino</div></div>
+    <div class="aroma-card" onclick="S.refView='scores';renderRef()"><div class="aroma-card-bar" style="background:var(--dim)"></div><div class="aroma-card-name">🏆 Puntuación</div><div class="aroma-card-count">Escala de 100 puntos</div></div>
+  </div></div>`}
+  else if(rV==='varietales')renderVarietales()
+  else if(rV==='v-detail')renderVarietalDetail()
+  else if(rV==='flash')renderFlash()
+  else if(rV==='aromas'){document.getElementById('v-ref').innerHTML=`<div class="rwrap">${Object.entries(PA).map(([p,cats])=>`<div class="rsec"><div class="rtitle">${p}</div><div class="rrule"></div>${cats.map(cat=>`<div class="aroma-detail"><div class="aroma-detail-title">${cat.c}</div><div class="chips">${cat.i.map(a=>`<div class="chip" style="pointer-events:none">${a}</div>`).join('')}</div></div>`).join('')}</div>`).join('')}</div>`}
+  else if(rV==='colors'){document.getElementById('v-ref').innerHTML=`<div class="rwrap">${Object.entries(COLORES).map(([b,sh])=>`<div class="rsec"><div class="rtitle">${b}</div><div class="rrule"></div><div style="display:flex;gap:14px;flex-wrap:wrap">${sh.map(s=>`<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:50%;background:${s.h};border:2px solid rgba(0,0,0,.08)"></div><div style="font-size:11px;color:var(--dim);text-align:center">${s.n}</div></div>`).join('')}</div></div>`).join('')}</div>`}
+  else if(rV==='scores'){document.getElementById('v-ref').innerHTML=`<div class="rwrap"><div class="rsec"><div class="rtitle">Escala de puntuación</div><div class="rrule"></div>${[[97,100,'Perfección'],[93,96,'Excepcional'],[90,92,'Sobresaliente'],[87,89,'Muy Bueno'],[83,86,'Bueno +'],[80,82,'Bueno'],[75,79,'Aceptable'],[50,74,'Por debajo del promedio']].map(([a,b,l])=>`<div class="drow"><span class="dl">${a}–${b}</span><span class="dv">${l}</span></div>`).join('')}</div></div>`}
+}
+
+/* ── VARIETALES LIST ── */
+function renderVarietales(){
+  const blancos=V.filter(v=>v.t==='b'),tintos=V.filter(v=>v.t==='r')
+  const tab=S.vtTab
+  const list=tab==='b'?blancos:tintos
+  document.getElementById('v-ref').innerHTML=`<div class="rwrap">
+    <div class="vt-tabs">
+      <div class="vt-tab${tab==='b'?' active tb':''}" onclick="S.vtTab='b';renderRef()">🍋 Blancos (${blancos.length})</div>
+      <div class="vt-tab${tab==='r'?' active tr':''}" onclick="S.vtTab='r';renderRef()">🍷 Tintos (${tintos.length})</div>
+    </div>
+    <div class="vt-list">${list.map((v,i)=>{const idx=V.indexOf(v);return`<div class="vt-card" onclick="S.vtIdx=${idx};S.refView='v-detail';renderRef()">
+      <div class="vt-card-header" style="background:${v.c}"></div>
+      <div class="vt-card-body">
+        <div class="vt-card-name">${v.n}</div>
+        <div class="vt-card-region">${v.rg.split('·')[0].trim()}</div>
+        <div class="vt-card-aromas">${v.ar.slice(0,3).map(a=>`<span class="vt-card-ar">${a}</span>`).join('')}</div>
+      </div>
+    </div>`}).join('')}</div>
+  </div>`
+}
+
+/* ── VARIETAL DETAIL (Wine Folly style) ── */
+function renderVarietalDetail(){
+  const v=V[S.vtIdx];if(!v)return
+  const labels=['Cuerpo','Dulzor','Acidez','Tanino','Alcohol']
+  // Mini radar SVG
+  const cx=80,cy=80,R=55,n=5,ag=i=>(Math.PI*2*i/n)-Math.PI/2,px=(i,r)=>cx+r*Math.cos(ag(i)),py=(i,r)=>cy+r*Math.sin(ag(i))
+  let g='',lb='',dp=[]
+  for(let r=1;r<=4;r++){let p=[];for(let i=0;i<n;i++)p.push(px(i,R*r/4)+','+py(i,R*r/4));g+=`<polygon points="${p.join(' ')}" fill="none" stroke="rgba(0,0,0,.08)"/>`}
+  for(let i=0;i<n;i++){g+=`<line x1="${cx}" y1="${cy}" x2="${px(i,R)}" y2="${py(i,R)}" stroke="rgba(0,0,0,.06)"/>`;lb+=`<text x="${px(i,R+14)}" y="${py(i,R+14)}" text-anchor="middle" dominant-baseline="middle" style="font-size:8px;fill:#8B7355">${labels[i]}</text>`;dp.push(px(i,R*v.p[i]/4)+','+py(i,R*v.p[i]/4))}
+  const radar=`<svg width="160" height="160" viewBox="0 0 160 160">${g}${lb}<polygon points="${dp.join(' ')}" fill="${v.c}33" stroke="${v.c}" stroke-width="1.5"/>${v.p.map((_,i)=>`<circle cx="${px(i,R*v.p[i]/4)}" cy="${py(i,R*v.p[i]/4)}" r="3" fill="${v.c}"/>`).join('')}</svg>`
+  // Level bars
+  const barLabels=['Bajo','Bajo/Med','Medio','Med/Alto','Alto']
+  const bars=labels.map((l,i)=>`<div class="stat-row" style="margin-bottom:6px"><div class="stat-row-label" style="min-width:70px;font-size:12px">${l}</div><div class="stat-bar-wrap"><div class="stat-bar" style="width:${v.p[i]/4*100}%;background:${v.c}"></div></div><div class="stat-row-val" style="font-size:11px">${barLabels[v.p[i]]}</div></div>`).join('')
+  document.getElementById('v-ref').innerHTML=`<div class="rwrap" style="padding:0 0 110px">
+    <div class="vt-detail-header" style="border-left:5px solid ${v.c};padding-left:20px">
+      <div class="vt-detail-title" style="color:${v.c}">${v.n}</div>
+      <div class="vt-detail-region">${v.rg}</div>
+    </div>
+    <div class="vt-detail-inner">
+      <div class="vt-detail-left">
+        <div style="display:flex;justify-content:center;margin-bottom:12px">${radar}</div>
+        ${bars}
+        <div class="vt-info-pills" style="margin-top:14px">
+          <div class="vt-pill">🌡️ ${v.tp}</div>
+          <div class="vt-pill">${v.dc?'⏳ Decanter':'✓ Sin decanter'}</div>
+          <div class="vt-pill">📅 ${v.gd}</div>
+          <div class="vt-pill">💰 ${v.pr}</div>
+        </div>
+      </div>
+      <div class="vt-detail-right">
+        <p class="vt-desc">${v.desc}</p>
+        <div class="vt-sec-t">Aromas principales</div>
+        <div class="vt-aromas-list">${v.ar.map((a,i)=>`<div class="vt-aroma"><div class="vt-aroma-e">${v.e[i]||'🍷'}</div><div>${a}</div></div>`).join('')}</div>
+        <div class="vt-sec-t" style="margin-top:16px">Maridaje</div>
+        <div class="vt-pairs">${v.mr.map(m=>`<span class="vt-pair">${m}</span>`).join('')}</div>
+        <div class="vt-sec-t" style="margin-top:16px">Si te gusta, probá también</div>
+        <div class="vt-sims">${v.sm.map(s=>`<span class="vt-sim" onclick="findVarietal('${s}')">${s}</span>`).join('')}</div>
+      </div>
+    </div>
+  </div>`
+}
+function findVarietal(name){const idx=V.findIndex(v=>v.n.toLowerCase()===name.toLowerCase());if(idx>=0){S.vtIdx=idx;renderRef()}else toast('Varietal no disponible en la guía')}
+
+/* ── FLASHCARDS ── */
 function buildDeck(){const d=[];Object.entries(PA).forEach(([p,cats])=>{cats.forEach(cat=>{cat.i.forEach(a=>{d.push({q:a,a:cat.c,hint:'Perfil: '+p})})})});Object.entries(COLORES).forEach(([b,sh])=>{sh.forEach(s=>{d.push({q:b+' '+s.n,a:'Identificar el color',hint:s.n,color:s.h})})});for(let i=d.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[d[i],d[j]]=[d[j],d[i]]};return d}
 function renderFlash(){if(!flashDeck.length)flashDeck=buildDeck();const card=flashDeck[S.fcIdx];document.getElementById('v-ref').innerHTML=`<div class="rwrap"><div class="fc-container"><div class="fc-counter">${S.fcIdx+1} de ${flashDeck.length}</div><div class="fc-card${S.fcFlipped?' flipped':''}" onclick="S.fcFlipped=!S.fcFlipped;renderFlash()"><div class="fc-inner"><div class="fc-front"><div class="fc-label">¿En qué categoría está?</div>${card.color?`<div style="width:60px;height:60px;border-radius:50%;background:${card.color};border:3px solid rgba(255,255,255,.3);margin-bottom:12px"></div>`:''}<div class="fc-question">${card.q}</div></div><div class="fc-back"><div class="fc-answer">${card.a}</div><div class="fc-hint">${card.hint}</div></div></div></div><div style="font-size:12px;color:var(--dim2);margin-bottom:16px">Tocá para revelar</div><div class="fc-nav"><button class="fc-btn fc-btn-prev" onclick="event.stopPropagation();S.fcIdx=(S.fcIdx-1+flashDeck.length)%flashDeck.length;S.fcFlipped=false;renderFlash()">← Anterior</button><button class="fc-btn fc-btn-next" onclick="event.stopPropagation();S.fcIdx=(S.fcIdx+1)%flashDeck.length;S.fcFlipped=false;renderFlash()">Siguiente →</button></div><div style="margin-top:14px"><button class="fc-btn fc-btn-prev" style="padding:8px 16px;width:auto" onclick="flashDeck=buildDeck();S.fcIdx=0;S.fcFlipped=false;renderFlash()">🔀 Mezclar</button></div></div></div>`}
 
-/* PROFILE */
+/* ══ PROFILE ══ */
 function renderProfile(){
   const n=S.user?.user_metadata?.name||S.user?.email?.split('@')[0]||''
   document.getElementById('hdr').innerHTML='<div class="hrow"><div><div class="htitle">Perfil</div></div></div>'
-  document.getElementById('v-profile').innerHTML=`<div class="pwrap">
-    <div class="pavatar">🍷</div><div class="pname">${n}</div><div class="pemail">${S.user?.email}</div>
-    <div class="pcard">
-      <div class="pcard-title">Mis estadísticas</div>
-      ${[[S.catas.length,'Catas registradas'],[avg(),'Puntaje promedio']].map(([n,l])=>`<div class="drow"><span class="dl">${l}</span><span class="dv" style="color:var(--wine);font-family:'Fraunces',serif;font-size:20px">${n}</span></div>`).join('')}
-    </div>
-    <div class="pcard">
-      <div class="pcard-title">Exportar</div>
-      <button class="btn-excel" onclick="exportExcel()">📊 Exportar todas las catas a Excel</button>
-      <div style="font-size:12px;color:var(--dim2);margin-top:4px">${S.catas.length} catas · descarga como .xlsx</div>
-    </div>
+  document.getElementById('v-profile').innerHTML=`<div class="pwrap"><div class="pavatar">🍷</div><div class="pname">${n}</div><div class="pemail">${S.user?.email}</div>
+    <div class="pcard" style="cursor:pointer" onclick="go('stats')"><div class="pcard-title">Mis estadísticas →</div>${[[S.catas.length,'Catas registradas'],[avg(),'Puntaje promedio']].map(([n,l])=>`<div class="drow"><span class="dl">${l}</span><span class="dv" style="color:var(--wine);font-family:'Fraunces',serif;font-size:20px">${n}</span></div>`).join('')}</div>
+    <div class="pcard"><div class="pcard-title">Exportar</div><button class="btn-excel" onclick="exportExcel()">📊 Exportar todas las catas a Excel</button><div style="font-size:12px;color:var(--dim2);margin-top:4px">${S.catas.length} catas · descarga como .xlsx</div></div>
     <button class="btn-out" onclick="signOut()">Cerrar sesión</button>
   </div>`
 }
 
-/* BOOTSTRAP */
+/* ══ BOOTSTRAP ══ */
 async function init(){const{data:{session}}=await db.auth.getSession();if(session){S.user=session.user;await loadCatas();document.getElementById('auth').style.display='none';document.getElementById('wrap').style.display='flex';render()}db.auth.onAuthStateChange(async(ev,session)=>{S.user=session?.user||null;if(S.user){await loadCatas();document.getElementById('auth').style.display='none';document.getElementById('wrap').style.display='flex';render()}else{S.catas=[];document.getElementById('auth').style.display='flex';document.getElementById('wrap').style.display='none'}})}
 init()
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{})
